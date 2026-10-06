@@ -1,6 +1,6 @@
 /**
  * The 7-Word Sprint | Kural 619
- * Grand Finale Engine: Slide 8 Video, White-Flash Seamless Jump & Slide 9 Assembly
+ * Grand Finale Engine: 0:01 Video Snap Trigger, White-Flash Seamless Jump & Slide 9 Assembly
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!scrollContainer || !slides.length) return;
 
   // ---------------------------------------------------------------------------
-  // 1. Scroll Progress Bar
+  // 1. Scroll Progress Bar Calculation
   // ---------------------------------------------------------------------------
   const updateScrollProgress = () => {
     const scrollTop = scrollContainer.scrollTop;
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         slide9.scrollIntoView({ behavior: 'auto' }); // Instant unnoticed jump
       }
 
-      // Step 3: Trigger Slide 9 magnetic reverse-snap assembly
+      // Step 3: Trigger Slide 9 sequential word-by-word fade assembly
       if (assemblyCard) {
         assemblyCard.classList.add('assembled');
       }
@@ -64,19 +64,31 @@ document.addEventListener('DOMContentLoaded', () => {
         if (whiteFlash) {
           whiteFlash.classList.remove('active');
         }
-      }, 80);
+      }, 100);
     }, 120);
   };
 
+  // ---------------------------------------------------------------------------
+  // 3. Track Video Playback: Trigger Snap Flash at exactly 0:01 (1.0s)
+  // ---------------------------------------------------------------------------
   if (video) {
-    // Listen for video completion / snap event
+    // Listen for timeupdate to catch 0:01
+    video.addEventListener('timeupdate', () => {
+      if (video.currentTime >= 1.0 && !hasSnapped) {
+        triggerSeamlessSnapTransition();
+      }
+    });
+
+    // Fallback if video ends before 1.0s
     video.addEventListener('ended', () => {
-      triggerSeamlessSnapTransition();
+      if (!hasSnapped) {
+        triggerSeamlessSnapTransition();
+      }
     });
   }
 
   // ---------------------------------------------------------------------------
-  // 3. IntersectionObserver for Slide Visibility & Playback
+  // 4. IntersectionObserver for Slide Visibility & Playback Controls
   // ---------------------------------------------------------------------------
   const observerOptions = {
     root: scrollContainer,
@@ -92,21 +104,21 @@ document.addEventListener('DOMContentLoaded', () => {
       if (entry.isIntersecting) {
         target.classList.add('is-visible');
 
-        // Play video ONLY when Slide 8 enters view
+        // Play video when Slide 8 enters view and trigger flash at 0:01
         if (isSlide8 && video) {
           hasSnapped = false;
           video.currentTime = 0;
           const playPromise = video.play();
           if (playPromise !== undefined) {
             playPromise.catch(() => {
-              // Fallback transition if autoplay is deferred or file is loading
+              // Fallback transition at 1.2s if autoplay is blocked
               clearTimeout(fallbackTimer);
-              fallbackTimer = setTimeout(triggerSeamlessSnapTransition, 3500);
+              fallbackTimer = setTimeout(triggerSeamlessSnapTransition, 1200);
             });
           }
         }
 
-        // Direct scroll to Slide 9 manual fallback trigger
+        // Direct scroll to Slide 9 trigger
         if (isSlide9 && assemblyCard) {
           assemblyCard.classList.add('assembled');
         }
@@ -120,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
           clearTimeout(fallbackTimer);
         }
 
-        // Reset Slide 9 assembly on exit for replayability
+        // Reset Slide 9 assembly on exit to enable replayability
         if (isSlide9 && assemblyCard) {
           assemblyCard.classList.remove('assembled');
         }
@@ -133,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ---------------------------------------------------------------------------
-  // 4. Replay Experience (Smooth Scroll back to Slide 1)
+  // 5. Replay Experience (Smooth Scroll back to Slide 1)
   // ---------------------------------------------------------------------------
   if (replayBtn) {
     replayBtn.addEventListener('click', () => {
@@ -146,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ---------------------------------------------------------------------------
-  // 5. Keyboard Navigation
+  // 6. Keyboard Navigation
   // ---------------------------------------------------------------------------
   window.addEventListener('keydown', (e) => {
     if (['ArrowDown', 'PageDown', 'Space'].includes(e.code)) {
