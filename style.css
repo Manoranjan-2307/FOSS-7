@@ -1,6 +1,6 @@
 /* ==========================================================================
    THE 7-WORD SPRINT | KURAL 619
-   Commit 2: Base Styling, Typography & 9-Slide Scroll-Snap Architecture
+   Commit 3: Slide 1–7 Single Word Animations & Micro-Interactions
    ========================================================================== */
 
 /* --- Custom Properties / Design Tokens --- */
@@ -34,6 +34,13 @@
   --radius-lg: 24px;
   --radius-full: 9999px;
   --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+
+  /* Framer-Motion Physics Curves */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --duration-fast: 200ms;
+  --duration-normal: 450ms;
 }
 
 /* --- Global Reset & Box Sizing --- */
@@ -110,6 +117,47 @@ html, body {
   gap: 1.25rem;
   position: relative;
   z-index: 2;
+  transition: transform var(--duration-normal) var(--ease-smooth);
+}
+
+/* ==========================================================================
+   SLIDES 1–7 SINGLE WORD ANIMATION ENGINE (Fade-in, Scale & Staggered Reveal)
+   ========================================================================== */
+
+/* Initial State: Hidden & Shifted Down */
+.slide-section:not(#slide-8):not(#slide-9) .slide-content > * {
+  opacity: 0;
+  transform: translateY(32px) scale(0.94);
+  transition: opacity 0.65s var(--ease-smooth),
+              transform 0.65s var(--ease-spring);
+  will-change: opacity, transform;
+}
+
+/* Triggered State via IntersectionObserver (.is-visible) */
+.slide-section.is-visible:not(#slide-8):not(#slide-9) .slide-content > *:nth-child(1) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-delay: 0.05s;
+}
+.slide-section.is-visible:not(#slide-8):not(#slide-9) .slide-content > *:nth-child(2) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-delay: 0.18s;
+}
+.slide-section.is-visible:not(#slide-8):not(#slide-9) .slide-content > *:nth-child(3) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-delay: 0.30s;
+}
+.slide-section.is-visible:not(#slide-8):not(#slide-9) .slide-content > *:nth-child(4) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-delay: 0.42s;
+}
+.slide-section.is-visible:not(#slide-8):not(#slide-9) .slide-content > *:nth-child(5) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-delay: 0.55s;
 }
 
 /* --- Typography & Badges --- */
@@ -133,6 +181,12 @@ html, body {
   line-height: 1.1;
   color: #ffffff;
   letter-spacing: -0.02em;
+  cursor: default;
+  transition: transform var(--duration-fast) var(--ease-spring);
+}
+
+.single-tamil-word:hover {
+  transform: scale(1.05);
 }
 
 .phonetic {
@@ -346,6 +400,13 @@ html, body {
   border: none;
   cursor: pointer;
   box-shadow: 0 6px 25px rgba(251, 191, 36, 0.4);
+  transition: transform var(--duration-fast) var(--ease-spring),
+              box-shadow var(--duration-fast) var(--ease-smooth);
+}
+
+.replay-btn:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 10px 30px rgba(251, 191, 36, 0.7);
 }
 
 .scroll-prompt {
@@ -356,6 +417,12 @@ html, body {
   color: var(--text-muted);
   font-size: 0.85rem;
   margin-top: 0.5rem;
+  animation: promptBob 2s infinite ease-in-out;
+}
+
+@keyframes promptBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
 }
 
 .snap-alert {
@@ -382,6 +449,12 @@ html, body {
   height: 6px;
   background: var(--text-muted);
   border-radius: 2px;
+  animation: wheelScroll 1.8s infinite ease-in-out;
+}
+
+@keyframes wheelScroll {
+  0% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, 10px); }
 }
 
 /* --- Responsive Adjustments --- */

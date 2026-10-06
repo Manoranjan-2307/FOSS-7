@@ -1,6 +1,6 @@
 /**
  * The 7-Word Sprint | Kural 619
- * Commit 4: Video Trigger Engine (Slide 8 Playback Controls)
+ * Commit 3: IntersectionObserver Scroll Engine & Slide 1-7 Single Word Triggers
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,12 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const progressBar = document.getElementById('progressBar');
   const slides = document.querySelectorAll('.slide-section');
   const replayBtn = document.getElementById('replayBtn');
-  const video = document.getElementById('ironManVideo');
 
   if (!scrollContainer || !slides.length) return;
 
   // ---------------------------------------------------------------------------
-  // 1. Dynamic Scroll Progress Bar
+  // 1. Dynamic Scroll Progress Bar Calculation
   // ---------------------------------------------------------------------------
   const updateScrollProgress = () => {
     const scrollTop = scrollContainer.scrollTop;
@@ -31,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateScrollProgress();
 
   // ---------------------------------------------------------------------------
-  // 2. IntersectionObserver for Slide Reveals & Slide 8 Video Trigger
+  // 2. IntersectionObserver for Slide 1-7 Dynamic Reveals
   // ---------------------------------------------------------------------------
   const observerOptions = {
     root: scrollContainer,
@@ -40,30 +39,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const slideObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      const target = entry.target;
-      const isSlide8 = target.id === 'slide-8';
-
       if (entry.isIntersecting) {
-        target.classList.add('is-visible');
-
-        // Play video ONLY when Slide 8 enters view
-        if (isSlide8 && video) {
-          video.currentTime = 0;
-          const playPromise = video.play();
-          if (playPromise !== undefined) {
-            playPromise.catch((err) => {
-              console.warn('Video auto-playback deferred:', err);
-            });
-          }
-        }
+        entry.target.classList.add('is-visible');
       } else {
-        target.classList.remove('is-visible');
-
-        // Pause and reset video when leaving Slide 8
-        if (isSlide8 && video) {
-          video.pause();
-          video.currentTime = 0;
-        }
+        entry.target.classList.remove('is-visible');
       }
     });
   }, observerOptions);
@@ -85,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ---------------------------------------------------------------------------
-  // 4. Keyboard Navigation (Arrows / Space / PageUpDown)
+  // 4. Keyboard Navigation Controls
   // ---------------------------------------------------------------------------
   window.addEventListener('keydown', (e) => {
     if (['ArrowDown', 'PageDown', 'Space'].includes(e.code)) {
