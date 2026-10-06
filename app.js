@@ -1,6 +1,6 @@
 /**
  * The 7-Word Sprint | Kural 619
- * Commit 4: Slide 8 Video Viewport Autoplay & Auto-Transition to Slide 9
+ * Commit 5: Slide 8 Video Snap Playback & Slide 9 Reverse-Snap Assembly Engine
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,11 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const replayBtn = document.getElementById('replayBtn');
   const video = document.getElementById('ironManVideo');
   const slide9 = document.getElementById('slide-9');
+  const assemblyCard = document.getElementById('assemblyCard');
 
   if (!scrollContainer || !slides.length) return;
 
   // ---------------------------------------------------------------------------
-  // 1. Dynamic Scroll Progress Bar Calculation
+  // 1. Dynamic Scroll Progress Bar
   // ---------------------------------------------------------------------------
   const updateScrollProgress = () => {
     const scrollTop = scrollContainer.scrollTop;
@@ -32,25 +33,25 @@ document.addEventListener('DOMContentLoaded', () => {
   updateScrollProgress();
 
   // ---------------------------------------------------------------------------
-  // 2. Slide 8 Video Auto-Transition to Slide 9
+  // 2. Slide 8 Video Tracking & Auto-Transition to Slide 9
   // ---------------------------------------------------------------------------
-  let fallbackTimer = null;
+  let autoScrollTimeout = null;
 
-  const transitionToSlide9 = () => {
+  const navigateToSlide9 = () => {
     if (slide9) {
       slide9.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   if (video) {
-    // Listen for video completion (the snap moment)
+    // Exact moment the Iron Man Snap video completes
     video.addEventListener('ended', () => {
-      transitionToSlide9();
+      navigateToSlide9();
     });
   }
 
   // ---------------------------------------------------------------------------
-  // 3. IntersectionObserver for Slide Visibility & Video Control
+  // 3. IntersectionObserver Lifecycle Engine
   // ---------------------------------------------------------------------------
   const observerOptions = {
     root: scrollContainer,
@@ -61,33 +62,41 @@ document.addEventListener('DOMContentLoaded', () => {
     entries.forEach((entry) => {
       const target = entry.target;
       const isSlide8 = target.id === 'slide-8';
+      const isSlide9 = target.id === 'slide-9';
 
       if (entry.isIntersecting) {
         target.classList.add('is-visible');
 
-        // Play video ONLY when Slide 8 is in view
+        // Play video ONLY when Slide 8 enters view
         if (isSlide8 && video) {
           video.currentTime = 0;
           const playPromise = video.play();
           if (playPromise !== undefined) {
             playPromise.catch(() => {
-              // If video asset is not present or blocked by browser policy,
-              // provide automatic fallback transition after 3.5s
-              clearTimeout(fallbackTimer);
-              fallbackTimer = setTimeout(() => {
-                transitionToSlide9();
-              }, 3500);
+              // Graceful fallback if video playback is blocked or file is missing
+              clearTimeout(autoScrollTimeout);
+              autoScrollTimeout = setTimeout(navigateToSlide9, 3500);
             });
           }
+        }
+
+        // Slide 9: Trigger .show class for the reverse-snap assembly
+        if (isSlide9 && assemblyCard) {
+          assemblyCard.classList.add('show');
         }
       } else {
         target.classList.remove('is-visible');
 
-        // Pause and reset video when leaving Slide 8
+        // Reset video when exiting Slide 8
         if (isSlide8 && video) {
           video.pause();
           video.currentTime = 0;
-          clearTimeout(fallbackTimer);
+          clearTimeout(autoScrollTimeout);
+        }
+
+        // Reset Slide 9 assembly on exit to enable replayability
+        if (isSlide9 && assemblyCard) {
+          assemblyCard.classList.remove('show');
         }
       }
     });
@@ -110,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ---------------------------------------------------------------------------
-  // 5. Keyboard Navigation Controls
+  // 5. Keyboard Navigation
   // ---------------------------------------------------------------------------
   window.addEventListener('keydown', (e) => {
     if (['ArrowDown', 'PageDown', 'Space'].includes(e.code)) {

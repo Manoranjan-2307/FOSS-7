@@ -1,6 +1,6 @@
 /* ==========================================================================
    THE 7-WORD SPRINT | KURAL 619
-   Commit 3: Slide 1–7 Single Word Animations & Micro-Interactions
+   Commit 5: Slide 9 Cinematic Reverse-Snap Assembly Engine & Heavy Physics
    ========================================================================== */
 
 /* --- Custom Properties / Design Tokens --- */
@@ -35,9 +35,10 @@
   --radius-full: 9999px;
   --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
 
-  /* Framer-Motion Physics Curves */
+  /* Framer-Motion Grade Physics Curves */
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-magnetic-snap: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   --duration-fast: 200ms;
   --duration-normal: 450ms;
@@ -121,10 +122,9 @@ html, body {
 }
 
 /* ==========================================================================
-   SLIDES 1–7 SINGLE WORD ANIMATION ENGINE (Fade-in, Scale & Staggered Reveal)
+   SLIDES 1–7 SINGLE WORD ANIMATIONS (Fade & Slide Up)
    ========================================================================== */
 
-/* Initial State: Hidden & Shifted Down */
 .slide-section:not(#slide-8):not(#slide-9) .slide-content > * {
   opacity: 0;
   transform: translateY(32px) scale(0.94);
@@ -133,7 +133,6 @@ html, body {
   will-change: opacity, transform;
 }
 
-/* Triggered State via IntersectionObserver (.is-visible) */
 .slide-section.is-visible:not(#slide-8):not(#slide-9) .slide-content > *:nth-child(1) {
   opacity: 1;
   transform: translateY(0) scale(1);
@@ -213,7 +212,6 @@ html, body {
 
 /* --- 9 Atmospheric Mood Backgrounds --- */
 
-/* Slide 1: Cosmic Fate */
 .slide-1 {
   background: radial-gradient(circle at 50% 30%, #15163c 0%, var(--bg-dark) 80%);
 }
@@ -223,7 +221,6 @@ html, body {
 }
 .slide-1 .kid-hint { border-left-color: var(--theme-s1); }
 
-/* Slide 2: Stormy Rain */
 .slide-2 {
   background: radial-gradient(circle at 50% 35%, #082238 0%, var(--bg-dark) 80%);
 }
@@ -233,7 +230,6 @@ html, body {
 }
 .slide-2 .kid-hint { border-left-color: var(--theme-s2); }
 
-/* Slide 3: The Pivot */
 .slide-3 {
   background: radial-gradient(circle at 50% 35%, #2b1f0c 0%, var(--bg-dark) 80%);
 }
@@ -243,7 +239,6 @@ html, body {
 }
 .slide-3 .kid-hint { border-left-color: var(--theme-s3); }
 
-/* Slide 4: Hard Work Flame */
 .slide-4 {
   background: radial-gradient(circle at 50% 40%, #351307 0%, var(--bg-dark) 80%);
 }
@@ -253,7 +248,6 @@ html, body {
 }
 .slide-4 .kid-hint { border-left-color: var(--theme-s4); }
 
-/* Slide 5: Physical Sweat XP */
 .slide-5 {
   background: radial-gradient(circle at 50% 35%, #092c1e 0%, var(--bg-dark) 80%);
 }
@@ -263,7 +257,6 @@ html, body {
 }
 .slide-5 .kid-hint { border-left-color: var(--theme-s5); }
 
-/* Slide 6: The Real Reward */
 .slide-6 {
   background: radial-gradient(circle at 50% 35%, #241142 0%, var(--bg-dark) 80%);
 }
@@ -273,7 +266,6 @@ html, body {
 }
 .slide-6 .kid-hint { border-left-color: var(--theme-s6); }
 
-/* Slide 7: Guaranteed Return */
 .slide-7 {
   background: radial-gradient(circle at 50% 30%, #362804 0%, var(--bg-dark) 80%);
 }
@@ -283,7 +275,7 @@ html, body {
 }
 .slide-7 .kid-hint { border-left-color: var(--theme-s7); }
 
-/* --- Slide 8: Full-Screen Iron Man Video Stage --- */
+/* --- Slide 8: Full-Screen Video Stage --- */
 .slide-8-video {
   background: #000000;
   padding: 0;
@@ -310,22 +302,26 @@ html, body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
+  background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.5) 100%);
 }
 
-/* --- Slide 9: Assembly Card Base --- */
+/* ==========================================================================
+   SLIDE 9: REVERSE-SNAP MAGNETIC ASSEMBLY ENGINE
+   ========================================================================== */
+
 .slide-9-assembly {
-  background: radial-gradient(circle at 50% 35%, #382504 0%, var(--bg-dark) 85%);
+  background: radial-gradient(circle at 50% 35%, #3c2704 0%, var(--bg-dark) 85%);
+  perspective: 1000px;
 }
 
 .assembly-card {
   width: 100%;
-  max-width: 960px;
-  background: var(--bg-card);
+  max-width: 980px;
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(251, 191, 36, 0.35);
   border-radius: var(--radius-lg);
   padding: 3rem 2rem;
-  box-shadow: 0 0 50px rgba(251, 191, 36, 0.2);
+  box-shadow: 0 0 60px rgba(251, 191, 36, 0.2);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   text-align: center;
@@ -335,6 +331,7 @@ html, body {
   gap: 1.5rem;
   position: relative;
   z-index: 2;
+  overflow: hidden;
 }
 
 .badge-assembly {
@@ -345,9 +342,10 @@ html, body {
   font-weight: 700;
   padding: 0.35rem 0.95rem;
   border-radius: var(--radius-full);
-  background: rgba(251, 191, 36, 0.15);
+  background: rgba(251, 191, 36, 0.18);
   color: #fbbf24;
-  border: 1px solid rgba(251, 191, 36, 0.4);
+  border: 1px solid rgba(251, 191, 36, 0.5);
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
 }
 
 .assembly-words-grid {
@@ -356,7 +354,8 @@ html, body {
   align-items: center;
   gap: 1.25rem;
   width: 100%;
-  margin: 1rem 0;
+  margin: 1.25rem 0;
+  position: relative;
 }
 
 .kural-line {
@@ -367,18 +366,82 @@ html, body {
   gap: 0.75rem 1.5rem;
 }
 
+/* Base Scattered Word State: Heavily Blurred, Rotated, Scaled & Thrown Off-Screen */
 .kural-word {
   font-family: var(--font-tamil);
-  font-size: clamp(2.2rem, 6.5vw, 3.8rem);
+  font-size: clamp(2.25rem, 6.5vw, 4rem);
   font-weight: 800;
   line-height: 1.15;
   color: #ffffff;
   display: inline-block;
+  will-change: transform, opacity, filter;
+  opacity: 0;
+  filter: blur(16px) brightness(2);
+  transition: transform 0.85s var(--ease-magnetic-snap),
+              opacity 0.6s var(--ease-smooth),
+              filter 0.7s var(--ease-smooth),
+              color 0.5s var(--ease-smooth),
+              text-shadow 0.5s var(--ease-smooth);
 }
 
+/* 3D Scattered Coordinates for each Word */
+#assemblyCard:not(.show) .word-1 {
+  transform: translate3d(-360px, -220px, 80px) rotate(-32deg) scale(2.2);
+}
+#assemblyCard:not(.show) .word-2 {
+  transform: translate3d(320px, -280px, 60px) rotate(26deg) scale(2.0);
+}
+#assemblyCard:not(.show) .word-3 {
+  transform: translate3d(-400px, 140px, 100px) rotate(-38deg) scale(2.3);
+}
+#assemblyCard:not(.show) .word-4 {
+  transform: translate3d(380px, -100px, 50px) rotate(20deg) scale(2.1);
+}
+#assemblyCard:not(.show) .word-5 {
+  transform: translate3d(-280px, 300px, 90px) rotate(35deg) scale(2.4);
+}
+#assemblyCard:not(.show) .word-6 {
+  transform: translate3d(340px, 240px, 70px) rotate(-24deg) scale(2.0);
+}
+#assemblyCard:not(.show) .word-7 {
+  transform: translate3d(0px, 400px, 120px) rotate(16deg) scale(2.6);
+}
+
+/* Triggered Magnetic Snap State (.show) */
+#assemblyCard.show .kural-word {
+  opacity: 1;
+  filter: blur(0px) brightness(1);
+  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  color: #fef08a;
+  text-shadow: 0 0 30px rgba(251, 191, 36, 0.8);
+}
+
+/* Sequential Staggered Transition Delays */
+#assemblyCard.show .word-1 { transition-delay: 0.10s; }
+#assemblyCard.show .word-2 { transition-delay: 0.22s; }
+#assemblyCard.show .word-3 { transition-delay: 0.34s; }
+#assemblyCard.show .word-4 { transition-delay: 0.46s; }
+#assemblyCard.show .word-5 { transition-delay: 0.58s; }
+#assemblyCard.show .word-6 { transition-delay: 0.70s; }
+#assemblyCard.show .word-7 {
+  transition-delay: 0.85s;
+  color: #ffffff;
+  text-shadow: 0 0 45px rgba(251, 191, 36, 1), 0 0 20px rgba(244, 63, 94, 0.8);
+}
+
+/* 5th Grader Meaning Box & Button Sequential Fade-In */
 .kural-meaning-box {
   width: 100%;
   max-width: 680px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-spring);
+}
+
+#assemblyCard.show .kural-meaning-box {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.15s;
 }
 
 .meaning-text {
@@ -389,7 +452,6 @@ html, body {
   text-shadow: 0 0 25px rgba(251, 191, 36, 0.5);
 }
 
-/* --- Replay Button & Scroll Prompts --- */
 .replay-btn {
   background: linear-gradient(135deg, #fbbf24, #d97706);
   color: #000;
@@ -400,15 +462,29 @@ html, body {
   border: none;
   cursor: pointer;
   box-shadow: 0 6px 25px rgba(251, 191, 36, 0.4);
-  transition: transform var(--duration-fast) var(--ease-spring),
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: opacity 0.8s var(--ease-smooth),
+              transform var(--duration-fast) var(--ease-spring),
               box-shadow var(--duration-fast) var(--ease-smooth);
 }
 
-.replay-btn:hover {
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 10px 30px rgba(251, 191, 36, 0.7);
+#assemblyCard.show .replay-btn {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-delay: 1.35s;
 }
 
+.replay-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 35px rgba(251, 191, 36, 0.7);
+}
+
+.replay-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* --- Scroll Prompts & Mouse Indicator --- */
 .scroll-prompt {
   display: flex;
   flex-direction: column;
