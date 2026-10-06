@@ -365,43 +365,52 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 1.1rem;
   width: 100%;
-  margin: 0.5rem 0;
+  margin: 0.75rem 0;
 }
 
 .kural-row {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 0.75rem 1.5rem;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.kural-row.row-1 {
+  gap: clamp(0.5rem, 1.8vw, 1.6rem);
+}
+
+.kural-row.row-2 {
+  gap: clamp(0.6rem, 2.2vw, 2rem);
 }
 
 .kural-fade-word {
   font-family: var(--font-tamil);
-  font-size: clamp(2.2rem, 5.8vw, 3.8rem);
+  font-size: clamp(1.4rem, 3.4vw, 2.85rem);
   font-weight: 800;
   line-height: 1.2;
   color: #ffffff;
   display: inline-block;
+  white-space: nowrap;
   opacity: 0;
-  transform: translateY(18px);
-  filter: blur(6px);
-  transition: opacity 0.8s var(--ease-gentle),
-              transform 0.8s var(--ease-gentle),
-              filter 0.8s var(--ease-gentle),
-              color 0.6s var(--ease-gentle),
-              text-shadow 0.6s var(--ease-gentle);
+  transform: translateY(32px) scale(0.94);
+  filter: blur(4px);
+  transition: opacity 0.65s var(--ease-smooth),
+              transform 0.65s var(--ease-spring),
+              filter 0.65s var(--ease-smooth),
+              color 0.5s var(--ease-gentle),
+              text-shadow 0.5s var(--ease-gentle);
   will-change: opacity, transform, filter;
 }
 
 .assembly-card.assembled .kural-fade-word {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   filter: blur(0);
   color: #fef08a;
-  text-shadow: 0 0 25px rgba(251, 191, 36, 0.6);
+  text-shadow: 0 0 25px rgba(251, 191, 36, 0.6), 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .assembly-card.assembled .word-1 { transition-delay: 0.25s; }
@@ -413,7 +422,7 @@ html, body {
 .assembly-card.assembled .word-7 {
   transition-delay: 3.40s;
   color: #ffffff;
-  text-shadow: 0 0 40px rgba(251, 191, 36, 1), 0 0 20px rgba(244, 63, 94, 0.7);
+  text-shadow: 0 0 40px rgba(251, 191, 36, 1), 0 0 20px rgba(244, 63, 94, 0.7), 0 2px 10px rgba(0, 0, 0, 0.9);
 }
 
 .kural-meaning-box {
@@ -580,7 +589,13 @@ html, body {
   .assembly-card {
     padding: 2rem 1.25rem;
   }
-  .kural-row {
-    gap: 0.5rem 0.85rem;
+  .kural-fade-word {
+    font-size: clamp(1.05rem, 3.8vw, 1.55rem);
+  }
+  .kural-row.row-1 {
+    gap: 0.35rem 0.6rem;
+  }
+  .kural-row.row-2 {
+    gap: 0.45rem 0.85rem;
   }
 }
