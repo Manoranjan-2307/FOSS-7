@@ -26,12 +26,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const allBgVideos = Object.values(videoConfig).map(cfg => cfg.el).filter(Boolean);
 
-  // Set up precise looping boundaries for each background video
+  // Setup high-precision seamless looping for active background video
+  let activeVideoConfig = videoConfig[1] || null;
+
+  const loopWatcher = () => {
+    if (activeVideoConfig && activeVideoConfig.el) {
+      const vid = activeVideoConfig.el;
+      if (vid.currentTime >= activeVideoConfig.end || vid.currentTime < activeVideoConfig.start) {
+        vid.currentTime = activeVideoConfig.start;
+        const p = vid.play();
+        if (p !== undefined) p.catch(() => {});
+      }
+    }
+    requestAnimationFrame(loopWatcher);
+  };
+  requestAnimationFrame(loopWatcher);
+
+  // Set up event listeners for robust looping boundaries on each background video
   Object.values(videoConfig).forEach((cfg) => {
     if (!cfg.el) return;
+
+    // Restart when video fires ended event
+    cfg.el.addEventListener('ended', () => {
+      cfg.el.currentTime = cfg.start;
+      if (cfg.el.classList.contains('active-bg')) {
+        const p = cfg.el.play();
+        if (p !== undefined) p.catch(() => {});
+      }
+    });
+
+    // Auto-resume if browser pauses active video near end boundary
+    cfg.el.addEventListener('pause', () => {
+      if (cfg.el.classList.contains('active-bg')) {
+        if (cfg.el.currentTime >= cfg.end - 0.2 || cfg.el.currentTime < cfg.start) {
+          cfg.el.currentTime = cfg.start;
+        }
+        const p = cfg.el.play();
+        if (p !== undefined) p.catch(() => {});
+      }
+    });
+
+    // Timeupdate fallback check
     cfg.el.addEventListener('timeupdate', () => {
       if (cfg.el.currentTime >= cfg.end || cfg.el.currentTime < cfg.start) {
         cfg.el.currentTime = cfg.start;
+        if (cfg.el.classList.contains('active-bg')) {
+          const p = cfg.el.play();
+          if (p !== undefined) p.catch(() => {});
+        }
       }
     });
   });
@@ -61,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ---------------------------------------------------------------------------
   const switchBackgroundVideo = (slideIndex) => {
     const activeCfg = videoConfig[slideIndex];
+    activeVideoConfig = activeCfg || null;
 
     allBgVideos.forEach((vid) => {
       if (activeCfg && vid === activeCfg.el) {
@@ -82,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const stopAllBackgroundVideos = () => {
+    activeVideoConfig = null;
     allBgVideos.forEach((vid) => {
       vid.classList.remove('active-bg');
       vid.pause();
