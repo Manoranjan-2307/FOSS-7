@@ -3,147 +3,124 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Thirukkural 619: A 7-Word, 7-Part Interactive Scroll-Telling Story for 5th Graders.">
-  <title>Kural 619 | The 7-Word Sprint: Effort Beats Fate</title>
+  <meta name="description" content="Thirukkural 619: An interactive 5th-grader scroll-telling experience ending with a cinematic magnetic assembly finale.">
+  <title>Kural 619 | The 7-Word Sprint</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Top Scroll Progress Bar -->
-  <div class="scroll-progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+  <!-- Top Scroll Progress Indicator -->
+  <div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 
-  <!-- Breadcrumb / Word Indicator Tracker -->
-  <nav class="word-nav" id="wordNav" aria-label="7-Word Journey Navigation">
-    <div class="word-nav-inner">
-      <span class="word-pill active" data-target="part-1">1. தெய்வத்தான்</span>
-      <span class="word-pill" data-target="part-2">2. ஆகாது</span>
-      <span class="word-pill" data-target="part-3">3. எனினும்</span>
-      <span class="word-pill" data-target="part-4">4. முயற்சிதன்</span>
-      <span class="word-pill" data-target="part-5">5. மெய்வருத்த</span>
-      <span class="word-pill" data-target="part-6">6. கூலி</span>
-      <span class="word-pill" data-target="part-7">7. தரும்</span>
-    </div>
-  </nav>
-
-  <!-- Main Scroll Container -->
+  <!-- Main Full-Page Scroll Container -->
   <main class="scroll-container" id="scrollContainer">
 
-    <!-- PART 1: The Spark (Word 1: தெய்வத்தான் - Fate / Luck) -->
-    <section class="story-section part-1-section" id="part-1" aria-label="Part 1: Fate and Luck">
-      <div class="section-content">
-        <div class="word-counter-badge">Word 1 of 7</div>
-        <div class="tamil-word-display" lang="ta">தெய்வத்தான்</div>
-        <div class="phonetic-guide">Deivath-thaan • "By Fate / Luck"</div>
-        <h1 class="story-heading">The Uncontrollable Universe 🌌</h1>
-        <p class="story-text">Imagine the weather, the dice roll, or pure cosmic luck. Things in life that no human can control.</p>
-        <div class="scroll-prompt" aria-hidden="true">
-          <span class="mouse-wheel"></span>
-          <span class="prompt-text">Scroll to follow the story ↓</span>
+    <!-- Section 1: The Hook (Mysterious & Engaging) -->
+    <section class="screen-section section-hook" id="section-1" aria-label="Section 1: The Hook">
+      <div class="content-wrapper reveal-item">
+        <span class="badge">Thirukkural • குறள் 619</span>
+        <h1 class="hero-title">தெய்வத்தான் ஆகா தெனினும்...</h1>
+        <p class="tagline">What happens when you give everything you've got, but the universe says "NO"?</p>
+        <div class="scroll-hint" aria-hidden="true">
+          <span class="mouse-icon"></span>
+          <span class="hint-text">Scroll to start the story ↓</span>
         </div>
       </div>
     </section>
 
-    <!-- PART 2: The Storm (Word 2: ஆகாது - Denied / Impossible) -->
-    <section class="story-section part-2-section" id="part-2" aria-label="Part 2: The Game Day Rain">
-      <div class="section-content">
-        <div class="word-counter-badge">Word 2 of 7</div>
-        <div class="tamil-word-display" lang="ta">ஆகாது</div>
-        <div class="phonetic-guide">Aa-gaa-dhu • "Even if Denied / Impossible"</div>
-        <div class="story-visual-icon" aria-hidden="true">🌧️ ⚽ 🚫</div>
-        <h2 class="story-heading">The Game Day Rain</h2>
-        <p class="story-text">You practiced soccer all week after school. You laced your cleats for Saturday's championship.</p>
-        <p class="story-callout">Suddenly, a torrential thunderstorm floods the field. <strong>MATCH CANCELED.</strong> Fate says: <em>"No trophy today."</em></p>
+    <!-- Section 2: Fate / The Problem (Dark & Disappointing) -->
+    <section class="screen-section section-fate" id="section-2" aria-label="Section 2: The Game Day Rain">
+      <div class="content-wrapper reveal-item">
+        <div class="icon-hero" aria-hidden="true">🌧️ ⚽ 🚫</div>
+        <h2 class="section-heading">The Game Day Rain</h2>
+        <p class="narrative-text">
+          You practiced soccer every afternoon after school. You ran sprints, drilled your passes, and tied your cleats tight for Saturday's championship.
+        </p>
+        <p class="callout-text">
+          Then Saturday morning arrives... and a ruthless thunderstorm floods the field. <strong>MATCH CANCELED.</strong>
+        </p>
+        <p class="sub-text">
+          No game. No cheering fans. No shiny trophy. Fate took the moment away in seconds.
+        </p>
       </div>
     </section>
 
-    <!-- PART 3: The Pivot (Word 3: எனினும் - Even So / Yet) -->
-    <section class="story-section part-3-section" id="part-3" aria-label="Part 3: The Big Question">
-      <div class="section-content">
-        <div class="word-counter-badge">Word 3 of 7</div>
-        <div class="tamil-word-display" lang="ta">எனினும்</div>
-        <div class="phonetic-guide">E-ni-num • "Even So / But Still..."</div>
-        <div class="story-visual-icon" aria-hidden="true">🤔 ⚡</div>
-        <h2 class="story-heading">Did You Really Lose?</h2>
-        <p class="story-text">You walk back home disappointed. Your jersey is dry, the trophy stays on the shelf.</p>
-        <p class="story-callout">Was all that practice wasted? <strong>Not so fast...</strong></p>
+    <!-- Section 3: Effort / The Turn (Bright & Uplifting) -->
+    <section class="screen-section section-effort" id="section-3" aria-label="Section 3: But Wait...">
+      <div class="content-wrapper reveal-item">
+        <div class="icon-hero" aria-hidden="true">⚡ 🏃💨</div>
+        <h2 class="section-heading">But wait...</h2>
+        <p class="narrative-text">
+          You didn't lift the gold cup today, but look at what actually happened to you:
+        </p>
+        <div class="powerup-grid">
+          <div class="powerup-card">
+            <span class="card-icon">⚡</span>
+            <span class="card-title">Legs</span>
+            <span class="card-detail">Twice as fast</span>
+          </div>
+          <div class="powerup-card">
+            <span class="card-icon">🎯</span>
+            <span class="card-title">Kicks</span>
+            <span class="card-detail">Pinpoint accurate</span>
+          </div>
+          <div class="powerup-card">
+            <span class="card-icon">🧠</span>
+            <span class="card-title">Mind</span>
+            <span class="card-detail">Unshakable grit</span>
+          </div>
+        </div>
+        <p class="sub-text">
+          The game was stopped by rain, but your effort didn't vanish into thin air.
+        </p>
       </div>
     </section>
 
-    <!-- PART 4: The Fire Within (Word 4: முயற்சிதன் - Your Effort) -->
-    <section class="story-section part-4-section" id="part-4" aria-label="Part 4: Your Personal Effort">
-      <div class="section-content">
-        <div class="word-counter-badge">Word 4 of 7</div>
-        <div class="tamil-word-display" lang="ta">முயற்சிதன்</div>
-        <div class="phonetic-guide">Mu-yar-chi-than • "One's Own Effort"</div>
-        <div class="story-visual-icon" aria-hidden="true">🔥 👟</div>
-        <h2 class="story-heading">The Power Nobody Can Steal</h2>
-        <p class="story-text">Luck didn't wake up at 6 AM. <strong>You did.</strong></p>
-        <p class="story-callout">Fate didn't sprint 50 laps across the field. <strong>You did.</strong> Effort belongs exclusively to the person who put it in.</p>
-      </div>
-    </section>
-
-    <!-- PART 5: The Grind (Word 5: மெய்வருத்த - Sweating / Physical Hard Work) -->
-    <section class="story-section part-5-section" id="part-5" aria-label="Part 5: Body and Sweat">
-      <div class="section-content">
-        <div class="word-counter-badge">Word 5 of 7</div>
-        <div class="tamil-word-display" lang="ta">மெய்வருத்த</div>
-        <div class="phonetic-guide">Mey-va-ruth-tha • "Body Exertion & Sweat"</div>
-        <div class="story-visual-icon" aria-hidden="true">💪 📈</div>
-        <h2 class="story-heading">Your Body Leveled Up!</h2>
-        <p class="story-text">Every single drop of sweat transformed you into a stronger player:</p>
-        <div class="stat-deck">
-          <div class="stat-pill">
-            <span class="pill-icon">⚡</span>
-            <span class="pill-label">Leg Speed</span>
-            <span class="pill-val">+10 XP</span>
-          </div>
-          <div class="stat-pill">
-            <span class="pill-icon">🎯</span>
-            <span class="pill-label">Kick Accuracy</span>
-            <span class="pill-val">+15 XP</span>
-          </div>
-          <div class="stat-pill">
-            <span class="pill-icon">🛡️</span>
-            <span class="pill-label">Endurance</span>
-            <span class="pill-val">+20 XP</span>
-          </div>
+    <!-- Section 4: The Payoff (Celebratory) -->
+    <section class="screen-section section-payoff" id="section-4" aria-label="Section 4: The 5th Grader Meaning">
+      <div class="content-wrapper reveal-item">
+        <div class="icon-hero" aria-hidden="true">🌟 🏆</div>
+        <span class="badge badge-gold">The Universal Moral</span>
+        <h2 class="section-heading">The Secret Rule of Life</h2>
+        <p class="payoff-quote">
+          "Hard work always pays you back, even when luck doesn't."
+        </p>
+        <p class="sub-text">
+          Whenever you sweat, practice, and put in 100%, that power becomes part of who you are. Luck can steal a trophy, but it can never steal your skill.
+        </p>
+        <div class="scroll-hint next-hint" aria-hidden="true">
+          <span>Scroll down for the 7-Word Assembly ↓</span>
         </div>
       </div>
     </section>
 
-    <!-- PART 6: The Reward (Word 6: கூலி - The Wage / Payoff) -->
-    <section class="story-section part-6-section" id="part-6" aria-label="Part 6: The True Reward">
-      <div class="section-content">
-        <div class="word-counter-badge">Word 6 of 7</div>
-        <div class="tamil-word-display" lang="ta">கூலி</div>
-        <div class="phonetic-guide">Koo-li • "The Reward / Return"</div>
-        <div class="story-visual-icon" aria-hidden="true">💎 🎁</div>
-        <h2 class="story-heading">The Secret Reward</h2>
-        <p class="story-text">Trophies collect dust on a shelf. But your new strength, speed, and confidence live inside your body forever.</p>
-        <p class="story-callout">That is the ultimate reward that bad weather or bad luck can never erase.</p>
-      </div>
-    </section>
+    <!-- Section 5: The Iron Man Snap Finale (Magnetic Assembly) -->
+    <section class="screen-section section-finale" id="section-5" aria-label="Section 5: The Magnetic Assembly Finale">
+      <div class="assembly-stage" id="assemblyStage">
+        <span class="badge badge-assembly">Magnetic Assembly Finale</span>
+        <p class="assembly-subheading">7 Words • 1 Timeless Truth</p>
 
-    <!-- PART 7: The Guarantee & Payoff (Word 7: தரும் - Guaranteed / Will Give) -->
-    <section class="story-section part-7-section" id="part-7" aria-label="Part 7: The Grand Payoff">
-      <div class="section-content">
-        <div class="word-counter-badge celebration-badge">Word 7 of 7 • The Grand Finale</div>
-        <div class="tamil-word-display pulse-word" lang="ta">தரும்</div>
-        <div class="phonetic-guide">Tha-rum • "Will Surely Give / Guaranteed"</div>
-        
-        <div class="kural-grand-box">
-          <span class="kural-header-tag">திருக்குறள் 619 • Thirukkural 619</span>
-          <blockquote class="kural-complete-text" lang="ta">
-            "தெய்வத்தான் ஆகா தெனினும் முயற்சிதன்<br>மெய்வருத்தக் கூலி தரும்"
-          </blockquote>
-          <p class="kural-kid-meaning">
-            🌟 <strong>5th-Grader Golden Rule:</strong><br>
-            "Even when luck and fate say NO, your hard work will ALWAYS pay you back in full."
-          </p>
+        <!-- The 7 Scattered Magnetic Words -->
+        <div class="words-container" id="wordsContainer" lang="ta">
+          <div class="snap-line line-1">
+            <span class="snap-word word-1" data-index="1">தெய்வத்தான்</span>
+            <span class="snap-word word-2" data-index="2">ஆகா</span>
+            <span class="snap-word word-3" data-index="3">தெனினும்</span>
+            <span class="snap-word word-4" data-index="4">முயற்சிதன்</span>
+          </div>
+          <div class="snap-line line-2">
+            <span class="snap-word word-5" data-index="5">மெய்வருத்தக்</span>
+            <span class="snap-word word-6" data-index="6">கூலி</span>
+            <span class="snap-word word-7" data-index="7">தரும்</span>
+          </div>
         </div>
 
-        <button class="replay-btn" id="replayBtn" type="button" aria-label="Replay the 7-word story from the beginning">
-          <span>🚀 Replay 7-Word Sprint ⬆️</span>
+        <p class="assembly-translation">
+          "Even if divine fate makes it impossible, the bodily exertion of effort will unfailingly yield its wage."
+        </p>
+
+        <button class="replay-btn" id="replayBtn" type="button">
+          <span>⚡ Replay Experience ⬆️</span>
         </button>
       </div>
     </section>
