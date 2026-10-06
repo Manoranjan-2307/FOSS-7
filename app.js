@@ -17,14 +17,27 @@ document.addEventListener('DOMContentLoaded', () => {
   const videoConfig = {
     1: { el: document.getElementById('vid-1'), start: 0, end: 9.3 },
     2: { el: document.getElementById('vid-2'), start: 47.0, end: 54.0 },
-    3: { el: document.getElementById('vid-3'), start: 53.0, end: 62.0 },
+    3: { el: document.getElementById('vid-3'), start: 0, end: 9.0 },
     4: { el: document.getElementById('vid-4'), start: 33.0, end: 38.0 },
-    5: { el: document.getElementById('vid-5'), start: 29.0, end: 33.0 },
+    5: { el: document.getElementById('vid-5'), start: 0, end: 4.0 },
     6: { el: document.getElementById('vid-6'), start: 140.0, end: 151.0 },
     7: { el: document.getElementById('vid-7'), start: 44.0, end: 55.0 }
   };
 
   const allBgVideos = Object.values(videoConfig).map(cfg => cfg.el).filter(Boolean);
+
+  // Pre-prime and pre-seek all background videos so they are ready on scroll with 0ms lag
+  Object.values(videoConfig).forEach((cfg) => {
+    if (!cfg.el) return;
+    const primeVideo = () => {
+      if (cfg.start > 0 && Math.abs(cfg.el.currentTime - cfg.start) > 0.5) {
+        cfg.el.currentTime = cfg.start;
+      }
+    };
+    cfg.el.addEventListener('loadedmetadata', primeVideo, { once: true });
+    cfg.el.addEventListener('canplay', primeVideo, { once: true });
+    if (cfg.el.readyState >= 1) primeVideo();
+  });
 
   // Setup high-precision seamless looping for active background video
   let activeVideoConfig = videoConfig[1] || null;
