@@ -1,21 +1,20 @@
 /**
  * The 7-Word Sprint | Kural 619
- * Commit 3: The Brains - IntersectionObserver Engine & Section 5 Snap Trigger
+ * Commit 3: IntersectionObserver Scroll Engine & Slide 1-7 Word Animation Triggers
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   const scrollContainer = document.getElementById('scrollContainer');
   const progressBar = document.getElementById('progressBar');
-  const sections = document.querySelectorAll('.screen-section');
+  const slides = document.querySelectorAll('.slide-section');
   const replayBtn = document.getElementById('replayBtn');
-  const assemblyStage = document.getElementById('assemblyStage');
 
-  if (!scrollContainer || !sections.length) return;
+  if (!scrollContainer || !slides.length) return;
 
   // ---------------------------------------------------------------------------
-  // 1. Scroll Progress Bar Calculation
+  // 1. Dynamic Scroll Progress Bar
   // ---------------------------------------------------------------------------
-  const updateProgressBar = () => {
+  const updateScrollProgress = () => {
     const scrollTop = scrollContainer.scrollTop;
     const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
     if (maxScroll > 0) {
@@ -27,77 +26,65 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  scrollContainer.addEventListener('scroll', updateProgressBar, { passive: true });
-  updateProgressBar();
+  scrollContainer.addEventListener('scroll', updateScrollProgress, { passive: true });
+  updateScrollProgress();
 
   // ---------------------------------------------------------------------------
-  // 2. IntersectionObserver Engine (Narrative Reveals & Section 5 Snap)
+  // 2. IntersectionObserver for Slide 1-7 Word Reveals
   // ---------------------------------------------------------------------------
   const observerOptions = {
     root: scrollContainer,
-    threshold: 0.5 // Triggers when half of the full-page section is in view
+    threshold: 0.55 // Triggers when slide is more than half in view
   };
 
-  const narrativeObserver = new IntersectionObserver((entries) => {
+  const slideObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      const target = entry.target;
-      const isSection5 = target.id === 'section-5';
-
       if (entry.isIntersecting) {
-        // Activate standard narrative section reveal
-        target.classList.add('is-visible');
-
-        // Special Trigger for Section 5: Iron Man Magnetic Assembly
-        if (isSection5 && assemblyStage) {
-          assemblyStage.classList.add('is-assembled');
-        }
+        entry.target.classList.add('is-visible');
       } else {
-        // Remove animation classes when scrolling away to enable replayability
-        target.classList.remove('is-visible');
-        if (isSection5 && assemblyStage) {
-          assemblyStage.classList.remove('is-assembled');
-        }
+        // Reset when scrolling away to enable continuous replayability
+        entry.target.classList.remove('is-visible');
       }
     });
   }, observerOptions);
 
-  sections.forEach((section) => {
-    narrativeObserver.observe(section);
+  slides.forEach((slide) => {
+    slideObserver.observe(slide);
   });
 
   // ---------------------------------------------------------------------------
-  // 3. Replay Experience Handler
+  // 3. Replay Experience (Smooth Scroll to Slide 1)
   // ---------------------------------------------------------------------------
   if (replayBtn) {
     replayBtn.addEventListener('click', () => {
-      const hookSection = document.getElementById('section-1');
-      if (hookSection) {
-        hookSection.scrollIntoView({ behavior: 'smooth' });
+      const firstSlide = document.getElementById('slide-1');
+      if (firstSlide) {
+        firstSlide.scrollIntoView({ behavior: 'smooth' });
       }
     });
   }
 
   // ---------------------------------------------------------------------------
-  // 4. Keyboard Navigation
+  // 4. Keyboard Navigation (Arrows / Space / PageUpDown)
   // ---------------------------------------------------------------------------
   window.addEventListener('keydown', (e) => {
     if (['ArrowDown', 'PageDown', 'Space'].includes(e.code)) {
       const currentScroll = scrollContainer.scrollTop;
-      const sectionHeight = window.innerHeight;
-      const nextIndex = Math.floor((currentScroll + 10) / sectionHeight) + 1;
-      const targetSection = sections[nextIndex];
-      if (targetSection) {
+      const slideHeight = window.innerHeight;
+      const nextIndex = Math.floor((currentScroll + 10) / slideHeight) + 1;
+      const targetSlide = slides[nextIndex];
+      if (targetSlide) {
         e.preventDefault();
-        targetSection.scrollIntoView({ behavior: 'smooth' });
+        targetSlide.scrollIntoView({ behavior: 'smooth' });
       }
     } else if (['ArrowUp', 'PageUp'].includes(e.code)) {
       const currentScroll = scrollContainer.scrollTop;
-      const sectionHeight = window.innerHeight;
-      const prevIndex = Math.ceil((currentScroll - 10) / sectionHeight) - 1;
-      const targetSection = sections[prevIndex];
-      if (targetSection) {
+      const slideHeight = window.innerHeight;
+      const prevIndex = Math.ceil((currentScroll - 10) / slideHeight) - 1;
+      const targetSlide = slides[prevIndex];
+      if (targetSlide) {
         e.preventDefault();
-        targetSection.scrollIntoView({ behavior: 'smooth' });
+        targetSlide.scrollIntoView({ behavior: 'smooth' });
       }
     }
   });
