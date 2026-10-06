@@ -163,22 +163,22 @@ html, body {
   background: transparent !important;
 }
 
-/* --- Pure Floating Typography for Slides 1–7 (Zero Box Interference) --- */
+/* --- Transparent Glass Cards for Slides 1–7 --- */
 .slide-content.transparent-card {
   width: 100%;
-  max-width: 860px;
-  background: transparent !important;
-  border: none !important;
-  border-radius: 0 !important;
-  padding: 1.5rem 1rem !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  max-width: 760px;
+  background: rgba(7, 9, 19, 0.40);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+  padding: 3.25rem 2.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.15rem;
+  gap: 1.35rem;
   position: relative;
   z-index: 2;
   transition: transform var(--duration-normal) var(--ease-smooth);
@@ -189,7 +189,7 @@ html, body {
    ========================================================================== */
 .slide-section:not(#slide-8):not(#slide-9) .slide-content > * {
   opacity: 0;
-  transform: translateY(28px) scale(0.96);
+  transform: translateY(32px) scale(0.94);
   transition: opacity 0.65s var(--ease-smooth),
               transform 0.65s var(--ease-spring);
   will-change: opacity, transform;
@@ -226,26 +226,24 @@ html, body {
   display: inline-block;
   font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   font-weight: 700;
-  padding: 0.35rem 1rem;
+  padding: 0.35rem 0.95rem;
   border-radius: var(--radius-full);
-  background: rgba(0, 0, 0, 0.55);
-  color: #f1f5f9;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  background: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .single-tamil-word {
   font-family: var(--font-tamil);
-  font-size: clamp(3.8rem, 11vw, 6.4rem);
+  font-size: clamp(3.4rem, 10vw, 5.8rem);
   font-weight: 800;
   line-height: 1.1;
   color: #ffffff;
   letter-spacing: -0.02em;
   cursor: default;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95), 0 0 45px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 255, 255, 0.35);
+  text-shadow: 0 0 35px rgba(255, 255, 255, 0.5), 0 4px 12px rgba(0, 0, 0, 0.8);
   transition: transform var(--duration-fast) var(--ease-spring);
 }
 
@@ -254,36 +252,37 @@ html, body {
 }
 
 .phonetic {
-  font-size: 1.35rem;
+  font-size: 1.2rem;
   font-style: italic;
-  color: #e2e8f0;
-  margin-top: -0.4rem;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95), 0 0 8px rgba(0, 0, 0, 0.85);
+  color: #cbd5e1;
+  margin-top: -0.5rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .kid-hint {
-  font-size: clamp(1.05rem, 2.6vw, 1.25rem);
+  font-size: clamp(1.05rem, 2.8vw, 1.25rem);
   color: #ffffff;
   background: rgba(0, 0, 0, 0.45);
-  padding: 0.8rem 1.6rem;
-  border-radius: var(--radius-full);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-  width: auto;
-  max-width: 680px;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+  padding: 1.1rem 1.6rem;
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--theme-s1);
+  width: 100%;
+  max-width: 640px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
 
 .kid-hint strong {
   color: #fef08a;
 }
 
-@media (max-width: 640px) {
-  .kid-hint {
-    border-radius: var(--radius-md);
-    padding: 0.85rem 1.2rem;
-  }
-}
+/* Border Accent Colors for Slides 1–7 */
+.slide-1 .kid-hint { border-left-color: var(--theme-s1); }
+.slide-2 .kid-hint { border-left-color: var(--theme-s2); }
+.slide-3 .kid-hint { border-left-color: var(--theme-s3); }
+.slide-4 .kid-hint { border-left-color: var(--theme-s4); }
+.slide-5 .kid-hint { border-left-color: var(--theme-s5); }
+.slide-6 .kid-hint { border-left-color: var(--theme-s6); }
+.slide-7 .kid-hint { border-left-color: var(--theme-s7); }
 
 /* ==========================================================================
    3. SLIDE 8: THE VIDEO CONTAINER
