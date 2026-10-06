@@ -8,8 +8,8 @@
 
 | Role | Name | Register Number |
 | :--- | :--- | :--- |
-| 👑 **Captain** | Manoranjan M | `7376242AD213` |
-| 🧑‍💻 **Member** | Rahul K | `7376242AD267` |
+| 👑 **Captain** | Rahul K | `7376242AD267` |
+| 🧑‍💻 **Member** | Manoranjan M | `7376242AD213` |
 | 🧑‍💻 **Member** | Sanjiv V | `7376242AD292` |
 
 ---
