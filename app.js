@@ -1,6 +1,6 @@
 /**
  * The 7-Word Sprint | Kural 619
- * Commit 3: IntersectionObserver Scroll Engine & Slide 1-7 Single Word Triggers
+ * Commit 4: Slide 8 Video Viewport Autoplay & Auto-Transition to Slide 9
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const progressBar = document.getElementById('progressBar');
   const slides = document.querySelectorAll('.slide-section');
   const replayBtn = document.getElementById('replayBtn');
+  const video = document.getElementById('ironManVideo');
+  const slide9 = document.getElementById('slide-9');
 
   if (!scrollContainer || !slides.length) return;
 
@@ -30,7 +32,25 @@ document.addEventListener('DOMContentLoaded', () => {
   updateScrollProgress();
 
   // ---------------------------------------------------------------------------
-  // 2. IntersectionObserver for Slide 1-7 Dynamic Reveals
+  // 2. Slide 8 Video Auto-Transition to Slide 9
+  // ---------------------------------------------------------------------------
+  let fallbackTimer = null;
+
+  const transitionToSlide9 = () => {
+    if (slide9) {
+      slide9.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  if (video) {
+    // Listen for video completion (the snap moment)
+    video.addEventListener('ended', () => {
+      transitionToSlide9();
+    });
+  }
+
+  // ---------------------------------------------------------------------------
+  // 3. IntersectionObserver for Slide Visibility & Video Control
   // ---------------------------------------------------------------------------
   const observerOptions = {
     root: scrollContainer,
@@ -39,10 +59,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const slideObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
+      const target = entry.target;
+      const isSlide8 = target.id === 'slide-8';
+
       if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
+        target.classList.add('is-visible');
+
+        // Play video ONLY when Slide 8 is in view
+        if (isSlide8 && video) {
+          video.currentTime = 0;
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {
+              // If video asset is not present or blocked by browser policy,
+              // provide automatic fallback transition after 3.5s
+              clearTimeout(fallbackTimer);
+              fallbackTimer = setTimeout(() => {
+                transitionToSlide9();
+              }, 3500);
+            });
+          }
+        }
       } else {
-        entry.target.classList.remove('is-visible');
+        target.classList.remove('is-visible');
+
+        // Pause and reset video when leaving Slide 8
+        if (isSlide8 && video) {
+          video.pause();
+          video.currentTime = 0;
+          clearTimeout(fallbackTimer);
+        }
       }
     });
   }, observerOptions);
@@ -52,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ---------------------------------------------------------------------------
-  // 3. Replay Experience (Smooth Scroll to Slide 1)
+  // 4. Replay Experience (Smooth Scroll to Slide 1)
   // ---------------------------------------------------------------------------
   if (replayBtn) {
     replayBtn.addEventListener('click', () => {
@@ -64,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ---------------------------------------------------------------------------
-  // 4. Keyboard Navigation Controls
+  // 5. Keyboard Navigation Controls
   // ---------------------------------------------------------------------------
   window.addEventListener('keydown', (e) => {
     if (['ArrowDown', 'PageDown', 'Space'].includes(e.code)) {
