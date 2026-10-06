@@ -13,18 +13,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const assemblyCard = document.getElementById('assemblyCard');
   const whiteFlash = document.getElementById('whiteFlashOverlay');
 
-  // Video ID map for Slides 1 to 7 matching the exact video file IDs
-  const slideVideoMap = {
-    1: document.getElementById('1st.mp4'),
-    2: document.getElementById('4f_clip_trimmed.mp4'),
-    3: document.getElementById('ictad_trimmed.mp4'),
-    4: document.getElementById('nade_trimmed.mp4'),
-    5: document.getElementById('bcurl_trimmed.mp4'),
-    6: document.getElementById('vittaray_trimmed.mp4'),
-    7: document.getElementById('final_clip_trimmed.mp4')
+  // Video Time Segments for High-Quality Looping (Start, End in seconds)
+  const videoConfig = {
+    1: { el: document.getElementById('vid-1'), start: 0, end: 9.3 },
+    2: { el: document.getElementById('vid-2'), start: 47.0, end: 54.0 },
+    3: { el: document.getElementById('vid-3'), start: 55.0, end: 59.0 },
+    4: { el: document.getElementById('vid-4'), start: 33.0, end: 38.0 },
+    5: { el: document.getElementById('vid-5'), start: 29.0, end: 33.0 },
+    6: { el: document.getElementById('vid-6'), start: 140.0, end: 151.0 },
+    7: { el: document.getElementById('vid-7'), start: 44.0, end: 55.0 }
   };
 
-  const allBgVideos = Object.values(slideVideoMap).filter(Boolean);
+  const allBgVideos = Object.values(videoConfig).map(cfg => cfg.el).filter(Boolean);
+
+  // Set up precise looping boundaries for each background video
+  Object.values(videoConfig).forEach((cfg) => {
+    if (!cfg.el) return;
+    cfg.el.addEventListener('timeupdate', () => {
+      if (cfg.el.currentTime >= cfg.end || cfg.el.currentTime < cfg.start) {
+        cfg.el.currentTime = cfg.start;
+      }
+    });
+  });
 
   if (!scrollContainer || !slides.length) return;
 
@@ -50,11 +60,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. Background Video Crossfade Controller (Slides 1 to 7)
   // ---------------------------------------------------------------------------
   const switchBackgroundVideo = (slideIndex) => {
-    const activeVid = slideVideoMap[slideIndex];
+    const activeCfg = videoConfig[slideIndex];
 
     allBgVideos.forEach((vid) => {
-      if (vid === activeVid) {
+      if (activeCfg && vid === activeCfg.el) {
         vid.classList.add('active-bg');
+        if (vid.currentTime < activeCfg.start || vid.currentTime >= activeCfg.end) {
+          vid.currentTime = activeCfg.start;
+        }
         const playPromise = vid.play();
         if (playPromise !== undefined) {
           playPromise.catch(() => {
@@ -75,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // Start with Slide 1 video active
+  // Start with Slide 1 active
   switchBackgroundVideo(1);
 
   // ---------------------------------------------------------------------------
