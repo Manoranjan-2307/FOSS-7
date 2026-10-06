@@ -163,6 +163,12 @@ html, body {
   background: transparent !important;
 }
 
+/* Lower-Third Alignment for Slides 1–7 (Clears Center & Top for Cinematic Action) */
+.slide-section:not(#slide-8):not(#slide-9) {
+  align-items: flex-end;
+  padding-bottom: clamp(2.5rem, 9vh, 5.5rem);
+}
+
 /* --- Pure Floating Typography for Slides 1–7 (Zero Box Interference) --- */
 .slide-content.transparent-card {
   width: 100%;
