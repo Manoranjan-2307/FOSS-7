@@ -1,6 +1,6 @@
 /* ==========================================================================
    THE 7-WORD SPRINT | KURAL 619
-   Slide 9: Majestic Slow-Paced Sequential Word Fade-In & Relative Translation
+   Commit: Slow Cinematic Flash & Slide 9 Sequential Reveal
    ========================================================================== */
 
 /* --- Custom Properties / Design Tokens --- */
@@ -64,7 +64,7 @@ html, body {
 }
 
 /* ==========================================================================
-   1. GLOBAL WHITE FLASH OVERLAY
+   1. GLOBAL WHITE FLASH OVERLAY (Cinematic Smooth Crossfade)
    ========================================================================== */
 .white-flash-overlay {
   position: fixed;
@@ -75,7 +75,8 @@ html, body {
   z-index: 9999;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.12s ease-out;
+  transition: opacity 0.75s var(--ease-gentle);
+  will-change: opacity;
 }
 
 .white-flash-overlay.active {
@@ -352,7 +353,7 @@ html, body {
   gap: 0.75rem 1.5rem;
 }
 
-/* Smooth, Gentle Fade-in Words (No Erratic Jumping) */
+/* Smooth, Gentle Fade-in Words */
 .kural-fade-word {
   font-family: var(--font-tamil);
   font-size: clamp(2.2rem, 5.8vw, 3.8rem);

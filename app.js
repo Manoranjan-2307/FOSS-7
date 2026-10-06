@@ -1,6 +1,6 @@
 /**
  * The 7-Word Sprint | Kural 619
- * Grand Finale Engine: 0:01 Video Snap Trigger, White-Flash Seamless Jump & Slide 9 Assembly
+ * Grand Finale Engine: Cinematic Slow White-Flash Transition & Slide 9 Assembly
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -34,55 +34,53 @@ document.addEventListener('DOMContentLoaded', () => {
   updateScrollProgress();
 
   // ---------------------------------------------------------------------------
-  // 2. Seamless White-Flash Jump & Assembly Execution
+  // 2. Cinematic Slow White-Flash Transition & Assembly
   // ---------------------------------------------------------------------------
   let fallbackTimer = null;
   let hasSnapped = false;
 
-  const triggerSeamlessSnapTransition = () => {
+  const triggerCinematicSnapTransition = () => {
     if (hasSnapped) return;
     hasSnapped = true;
 
-    // Step 1: Trigger full white screen flash
+    // Step 1: Smoothly fade in the white glow overlay (slow build-up)
     if (whiteFlash) {
       whiteFlash.classList.add('active');
     }
 
-    // Step 2: Instant jump to Slide 9 while screen is fully white
+    // Step 2: Once white glow reaches full opacity (~600ms), perform the instant jump
     setTimeout(() => {
       if (slide9) {
-        slide9.scrollIntoView({ behavior: 'auto' }); // Instant unnoticed jump
+        slide9.scrollIntoView({ behavior: 'auto' });
       }
 
-      // Step 3: Trigger Slide 9 sequential word-by-word fade assembly
+      // Step 3: Trigger Slide 9 assembly
       if (assemblyCard) {
         assemblyCard.classList.add('assembled');
       }
 
-      // Step 4: Fade white flash back to transparent
+      // Step 4: Gracefully fade out the white glow over 800ms
       setTimeout(() => {
         if (whiteFlash) {
           whiteFlash.classList.remove('active');
         }
-      }, 100);
-    }, 120);
+      }, 250);
+    }, 600);
   };
 
   // ---------------------------------------------------------------------------
-  // 3. Track Video Playback: Trigger Snap Flash at exactly 0:01 (1.0s)
+  // 3. Track Video Playback: Trigger Snap Flash at 0:01 (1.0s)
   // ---------------------------------------------------------------------------
   if (video) {
-    // Listen for timeupdate to catch 0:01
     video.addEventListener('timeupdate', () => {
       if (video.currentTime >= 1.0 && !hasSnapped) {
-        triggerSeamlessSnapTransition();
+        triggerCinematicSnapTransition();
       }
     });
 
-    // Fallback if video ends before 1.0s
     video.addEventListener('ended', () => {
       if (!hasSnapped) {
-        triggerSeamlessSnapTransition();
+        triggerCinematicSnapTransition();
       }
     });
   }
@@ -104,35 +102,31 @@ document.addEventListener('DOMContentLoaded', () => {
       if (entry.isIntersecting) {
         target.classList.add('is-visible');
 
-        // Play video when Slide 8 enters view and trigger flash at 0:01
+        // Play video when Slide 8 enters view
         if (isSlide8 && video) {
           hasSnapped = false;
           video.currentTime = 0;
           const playPromise = video.play();
           if (playPromise !== undefined) {
             playPromise.catch(() => {
-              // Fallback transition at 1.2s if autoplay is blocked
               clearTimeout(fallbackTimer);
-              fallbackTimer = setTimeout(triggerSeamlessSnapTransition, 1200);
+              fallbackTimer = setTimeout(triggerCinematicSnapTransition, 1500);
             });
           }
         }
 
-        // Direct scroll to Slide 9 trigger
         if (isSlide9 && assemblyCard) {
           assemblyCard.classList.add('assembled');
         }
       } else {
         target.classList.remove('is-visible');
 
-        // Reset video when exiting Slide 8
         if (isSlide8 && video) {
           video.pause();
           video.currentTime = 0;
           clearTimeout(fallbackTimer);
         }
 
-        // Reset Slide 9 assembly on exit to enable replayability
         if (isSlide9 && assemblyCard) {
           assemblyCard.classList.remove('assembled');
         }
