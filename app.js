@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const videoConfig = {
     1: { el: document.getElementById('vid-1'), start: 0, end: 9.3 },
     2: { el: document.getElementById('vid-2'), start: 47.0, end: 54.0 },
-    3: { el: document.getElementById('vid-3'), start: 55.0, end: 59.0 },
+    3: { el: document.getElementById('vid-3'), start: 53.0, end: 62.0 },
     4: { el: document.getElementById('vid-4'), start: 33.0, end: 38.0 },
     5: { el: document.getElementById('vid-5'), start: 29.0, end: 33.0 },
     6: { el: document.getElementById('vid-6'), start: 140.0, end: 151.0 },
