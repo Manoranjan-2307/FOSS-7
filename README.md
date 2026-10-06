@@ -1,7 +1,16 @@
+<div style="font-family: 'Poppins', sans-serif;">
+
 <div align="center">
   <h1>🌟 The 7-Word Sprint: Thirukkural Experience 🌟</h1>
-  <p>An interactive, cinematic "scroll-telling" journey designed to teach young learners the power of effort over fate.</p>
 </div>
+
+## 👥 Team ByteForce
+
+| Role | Name | Register Number |
+| :--- | :--- | :--- |
+| 👑 **Captain** | Manoranjan M | `7376242AD213` |
+| 🧑‍💻 **Member** | Rahul K | `7376242AD267` |
+| 🧑‍💻 **Member** | Sanjiv V | `7376242AD292` |
 
 ---
 
@@ -22,16 +31,8 @@ We are building a highly interactive, cinematic **"scroll-telling"** experience 
 * **The Goal:** This visually impactful approach ensures the core message—that *effort beats luck*—leaves a lasting and memorable impression on young minds.
 
 ---
-
-## 👥 Team ByteForce
-
-| Role | Name | Register Number |
-| :--- | :--- | :--- |
-| 👑 **Captain** | Manoranjan M | `7376242AD213` |
-| 🧑‍💻 **Member** | Rahul K | `7376242AD267` |
-| 🧑‍💻 **Member** | Sanjiv V | `7376242AD292` |
-
----
 <div align="center">
   <i>Built with ❤️ by Team ByteForce</i>
+</div>
+
 </div>
