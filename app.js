@@ -12,7 +12,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const slide9 = document.getElementById('slide-9');
   const assemblyCard = document.getElementById('assemblyCard');
   const whiteFlash = document.getElementById('whiteFlashOverlay');
-  const bgVideos = document.querySelectorAll('.bg-video');
+
+  // Video ID map for Slides 1 to 7 matching the exact video file IDs
+  const slideVideoMap = {
+    1: document.getElementById('1st.mp4'),
+    2: document.getElementById('4f_clip_trimmed.mp4'),
+    3: document.getElementById('ictad_trimmed.mp4'),
+    4: document.getElementById('nade_trimmed.mp4'),
+    5: document.getElementById('bcurl_trimmed.mp4'),
+    6: document.getElementById('vittaray_trimmed.mp4'),
+    7: document.getElementById('final_clip_trimmed.mp4')
+  };
+
+  const allBgVideos = Object.values(slideVideoMap).filter(Boolean);
 
   if (!scrollContainer || !slides.length) return;
 
@@ -38,9 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. Background Video Crossfade Controller (Slides 1 to 7)
   // ---------------------------------------------------------------------------
   const switchBackgroundVideo = (slideIndex) => {
-    bgVideos.forEach((vid, idx) => {
-      const targetIndex = idx + 1;
-      if (targetIndex === slideIndex) {
+    const activeVid = slideVideoMap[slideIndex];
+
+    allBgVideos.forEach((vid) => {
+      if (vid === activeVid) {
         vid.classList.add('active-bg');
         const playPromise = vid.play();
         if (playPromise !== undefined) {
@@ -56,13 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const stopAllBackgroundVideos = () => {
-    bgVideos.forEach((vid) => {
+    allBgVideos.forEach((vid) => {
       vid.classList.remove('active-bg');
       vid.pause();
     });
   };
 
-  // Start with first background video active
+  // Start with Slide 1 video active
   switchBackgroundVideo(1);
 
   // ---------------------------------------------------------------------------

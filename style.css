@@ -72,7 +72,7 @@ html, body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   overflow: hidden;
   background-color: var(--bg-dark);
@@ -146,6 +146,7 @@ html, body {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   position: relative;
+  z-index: 1;
 }
 
 /* --- Full-Screen Slide Section Base Layout --- */
