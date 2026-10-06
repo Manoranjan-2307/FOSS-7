@@ -1,11 +1,11 @@
 /* ==========================================================================
    THE 7-WORD SPRINT | KURAL 619
-   Commit 5: The Cinematic Iron Man Magnetic Assembly Engine (Section 5)
+   Commit 2: Base Styling, Typography, 8 Mood Themes & Scroll-Snapping
    ========================================================================== */
 
 /* --- Custom Properties / Design Tokens --- */
 :root {
-  /* Core Palette */
+  /* Core Base Colors */
   --bg-dark: #070913;
   --bg-card: rgba(255, 255, 255, 0.05);
   --border-glass: rgba(255, 255, 255, 0.12);
@@ -13,34 +13,26 @@
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
 
-  /* Section Theme Accents */
-  --accent-hook: #818cf8;       /* Indigo */
-  --accent-fate: #38bdf8;       /* Storm Cyan */
-  --accent-effort: #34d399;     /* Energetic Emerald */
-  --accent-payoff: #fbbf24;     /* Celebratory Gold */
-  --accent-finale: #f43f5e;     /* Arc Reactor Crimson */
+  /* 8 Slide Theme Accents */
+  --theme-s1: #6366f1; /* 1. Cosmic Fate (Indigo) */
+  --theme-s2: #38bdf8; /* 2. Stormy Rain (Cyan) */
+  --theme-s3: #f59e0b; /* 3. The Pivot (Amber) */
+  --theme-s4: #f97316; /* 4. Hard Work Flame (Orange) */
+  --theme-s5: #10b981; /* 5. Physical Sweat XP (Emerald) */
+  --theme-s6: #8b5cf6; /* 6. The Real Reward (Purple) */
+  --theme-s7: #eab308; /* 7. Guaranteed Return (Yellow) */
+  --theme-s8: #f43f5e; /* 8. Reverse-Snap Reactor (Rose/Gold) */
 
   /* Typography */
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-tamil: "Mukta Malar", "Latha", "Catamaran", "Vijaya", "Noto Sans Tamil", sans-serif;
 
-  /* Sizing & Radii */
+  /* Radii & Shadows */
   --radius-sm: 8px;
   --radius-md: 16px;
   --radius-lg: 24px;
   --radius-full: 9999px;
-
-  /* Shadows */
   --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
-  --shadow-glow-gold: 0 0 45px rgba(251, 191, 36, 0.5);
-
-  /* Framer-Motion Physics Easing Curves */
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-magnetic-snap: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-  --duration-fast: 200ms;
-  --duration-normal: 450ms;
 }
 
 /* --- Global Reset & Box Sizing --- */
@@ -62,20 +54,20 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- Scroll Progress Bar --- */
+/* --- Top Scroll Progress Bar --- */
 .progress-bar {
   position: fixed;
   top: 0;
   left: 0;
   width: 0%;
   height: 4px;
-  background: linear-gradient(90deg, var(--accent-hook), var(--accent-effort), var(--accent-payoff), var(--accent-finale));
+  background: linear-gradient(90deg, var(--theme-s1), var(--theme-s4), var(--theme-s7), var(--theme-s8));
   z-index: 1000;
-  transition: width 0.15s ease-out;
-  box-shadow: 0 0 14px rgba(244, 63, 94, 0.8);
+  transition: width 0.12s ease-out;
+  box-shadow: 0 0 12px rgba(244, 63, 94, 0.8);
 }
 
-/* --- Full-Page Scroll-Snap Container --- */
+/* --- Full-Page Scroll-Snap Container (Y-Axis Mandatory) --- */
 .scroll-container {
   width: 100%;
   height: 100vh;
@@ -85,8 +77,8 @@ html, body {
   position: relative;
 }
 
-/* --- Screen Section Base Layout --- */
-.screen-section {
+/* --- Full-Screen Slide Section Base Layout --- */
+.slide-section {
   width: 100%;
   min-height: 100vh;
   scroll-snap-align: start;
@@ -99,14 +91,14 @@ html, body {
   overflow: hidden;
 }
 
-/* --- Content Wrapper & Glassmorphism --- */
-.content-wrapper {
+/* --- Slide Content Card Glassmorphism --- */
+.slide-content {
   width: 100%;
-  max-width: 680px;
+  max-width: 720px;
   background: var(--bg-card);
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-lg);
-  padding: 2.75rem 2.25rem;
+  padding: 3rem 2.25rem;
   box-shadow: var(--shadow-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -117,217 +109,134 @@ html, body {
   gap: 1.25rem;
   position: relative;
   z-index: 2;
-  transition: transform var(--duration-normal) var(--ease-smooth);
 }
 
-/* ==========================================================================
-   SECTIONS 1–4 ANIMATION ENGINE (Fade-in, Slide-up, Staggered Delays)
-   ========================================================================== */
-
-.screen-section:not(#section-5) .reveal-item > * {
-  opacity: 0;
-  transform: translateY(28px) scale(0.96);
-  transition: opacity 0.6s var(--ease-smooth),
-              transform 0.6s var(--ease-spring);
-  will-change: opacity, transform;
-}
-
-.screen-section.is-visible:not(#section-5) .reveal-item > *:nth-child(1) {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition-delay: 0.05s;
-}
-.screen-section.is-visible:not(#section-5) .reveal-item > *:nth-child(2) {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition-delay: 0.15s;
-}
-.screen-section.is-visible:not(#section-5) .reveal-item > *:nth-child(3) {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition-delay: 0.25s;
-}
-.screen-section.is-visible:not(#section-5) .reveal-item > *:nth-child(4) {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition-delay: 0.35s;
-}
-.screen-section.is-visible:not(#section-5) .reveal-item > *:nth-child(5) {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition-delay: 0.45s;
-}
-.screen-section.is-visible:not(#section-5) .reveal-item > *:nth-child(6) {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition-delay: 0.55s;
-}
-
-/* --- Micro-Animations: Floating Icons & Badges --- */
-.icon-hero {
-  font-size: 2.75rem;
-  line-height: 1;
-  display: inline-block;
-  animation: floatHero 3.5s infinite ease-in-out;
-}
-
-@keyframes floatHero {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-.badge {
+/* --- Typography & Badges --- */
+.slide-badge {
   display: inline-block;
   font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   font-weight: 700;
-  padding: 0.35rem 0.9rem;
+  padding: 0.35rem 0.95rem;
   border-radius: var(--radius-full);
   background: rgba(255, 255, 255, 0.08);
   color: var(--text-secondary);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.badge-gold {
-  background: rgba(251, 191, 36, 0.15);
-  color: var(--accent-payoff);
-  border-color: rgba(251, 191, 36, 0.4);
-  animation: badgeShine 2.5s infinite ease-in-out;
-}
-
-@keyframes badgeShine {
-  0%, 100% { box-shadow: 0 0 10px rgba(251, 191, 36, 0.2); }
-  50% { box-shadow: 0 0 25px rgba(251, 191, 36, 0.6); }
-}
-
-.badge-assembly {
-  background: rgba(244, 63, 94, 0.18);
-  color: #fda4af;
-  border-color: rgba(244, 63, 94, 0.5);
-  box-shadow: 0 0 15px rgba(244, 63, 94, 0.3);
-}
-
-.hero-title {
+.single-tamil-word {
   font-family: var(--font-tamil);
-  font-size: clamp(2rem, 5.5vw, 3.2rem);
+  font-size: clamp(3rem, 9vw, 5.5rem);
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.1;
   color: #ffffff;
-  text-shadow: 0 0 30px rgba(129, 140, 248, 0.5);
+  letter-spacing: -0.02em;
 }
 
-.section-heading {
-  font-size: clamp(1.6rem, 4vw, 2.25rem);
-  font-weight: 800;
-  color: #ffffff;
-  line-height: 1.25;
-}
-
-.tagline, .narrative-text {
-  font-size: clamp(1.05rem, 2.5vw, 1.2rem);
-  color: #cbd5e1;
-  max-width: 560px;
-}
-
-.sub-text {
-  font-size: clamp(0.95rem, 2.2vw, 1.05rem);
-  color: var(--text-muted);
-}
-
-.callout-text {
-  font-size: clamp(1.05rem, 2.5vw, 1.2rem);
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.04);
-  padding: 1rem 1.5rem;
-  border-radius: var(--radius-md);
-  border-left: 4px solid var(--accent-fate);
-  width: 100%;
-}
-
-.payoff-quote {
-  font-size: clamp(1.2rem, 3.2vw, 1.55rem);
-  font-weight: 800;
-  color: var(--accent-payoff);
-  line-height: 1.4;
-  padding: 0.5rem 0;
-  text-shadow: 0 0 25px rgba(251, 191, 36, 0.4);
-}
-
-/* --- Power-Up Stats Grid (Section 3) with Spring Hover --- */
-.powerup-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.75rem;
-  width: 100%;
-}
-
-.powerup-card {
-  background: rgba(52, 211, 153, 0.08);
-  border: 1px solid rgba(52, 211, 153, 0.25);
-  border-radius: var(--radius-md);
-  padding: 1rem 0.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
-  transition: transform var(--duration-fast) var(--ease-spring),
-              background var(--duration-fast) var(--ease-smooth),
-              box-shadow var(--duration-fast) var(--ease-smooth);
-  cursor: default;
-}
-
-.powerup-card:hover {
-  transform: translateY(-4px) scale(1.04);
-  background: rgba(52, 211, 153, 0.16);
-  box-shadow: 0 10px 25px rgba(52, 211, 153, 0.3);
-}
-
-.card-icon {
-  font-size: 1.5rem;
-}
-
-.card-title {
-  font-size: 0.8rem;
-  font-weight: 600;
+.phonetic {
+  font-size: 1.15rem;
+  font-style: italic;
   color: var(--text-secondary);
+  margin-top: -0.5rem;
 }
 
-.card-detail {
-  font-size: 0.95rem;
-  font-weight: 800;
-  color: var(--accent-effort);
+.kid-hint {
+  font-size: clamp(1.05rem, 2.8vw, 1.25rem);
+  color: #f1f5f9;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 1.1rem 1.6rem;
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--theme-s1);
+  width: 100%;
+  max-width: 600px;
 }
 
-/* --- Atmosphere Mood Backgrounds --- */
-.section-hook {
-  background: radial-gradient(circle at 50% 30%, #151638 0%, var(--bg-dark) 75%);
+.kid-hint strong {
+  color: #ffffff;
 }
 
-.section-fate {
-  background: radial-gradient(circle at 50% 35%, #0b2238 0%, var(--bg-dark) 75%);
-}
+/* --- 8 Atmosphere Background Gradients --- */
 
-.section-effort {
-  background: radial-gradient(circle at 50% 35%, #0a2e20 0%, var(--bg-dark) 75%);
+/* Slide 1: Cosmic Fate */
+.slide-1 {
+  background: radial-gradient(circle at 50% 30%, #15163c 0%, var(--bg-dark) 80%);
 }
-
-.section-payoff {
-  background: radial-gradient(circle at 50% 30%, #302305 0%, var(--bg-dark) 80%);
+.slide-1 .single-tamil-word {
+  color: #c7d2fe;
+  text-shadow: 0 0 35px rgba(99, 102, 241, 0.7);
 }
+.slide-1 .kid-hint { border-left-color: var(--theme-s1); }
 
-.section-finale {
-  background: radial-gradient(circle at 50% 40%, #380816 0%, var(--bg-dark) 85%);
+/* Slide 2: Stormy Rain */
+.slide-2 {
+  background: radial-gradient(circle at 50% 35%, #082238 0%, var(--bg-dark) 80%);
+}
+.slide-2 .single-tamil-word {
+  color: #bae6fd;
+  text-shadow: 0 0 35px rgba(56, 189, 248, 0.7);
+}
+.slide-2 .kid-hint { border-left-color: var(--theme-s2); }
+
+/* Slide 3: The Pivot */
+.slide-3 {
+  background: radial-gradient(circle at 50% 35%, #2b1f0c 0%, var(--bg-dark) 80%);
+}
+.slide-3 .single-tamil-word {
+  color: #fde68a;
+  text-shadow: 0 0 35px rgba(245, 158, 11, 0.7);
+}
+.slide-3 .kid-hint { border-left-color: var(--theme-s3); }
+
+/* Slide 4: Hard Work Flame */
+.slide-4 {
+  background: radial-gradient(circle at 50% 40%, #351307 0%, var(--bg-dark) 80%);
+}
+.slide-4 .single-tamil-word {
+  color: #fed7aa;
+  text-shadow: 0 0 35px rgba(249, 115, 22, 0.7);
+}
+.slide-4 .kid-hint { border-left-color: var(--theme-s4); }
+
+/* Slide 5: Physical Sweat XP */
+.slide-5 {
+  background: radial-gradient(circle at 50% 35%, #092c1e 0%, var(--bg-dark) 80%);
+}
+.slide-5 .single-tamil-word {
+  color: #a7f3d0;
+  text-shadow: 0 0 35px rgba(16, 185, 129, 0.7);
+}
+.slide-5 .kid-hint { border-left-color: var(--theme-s5); }
+
+/* Slide 6: The Real Reward */
+.slide-6 {
+  background: radial-gradient(circle at 50% 35%, #241142 0%, var(--bg-dark) 80%);
+}
+.slide-6 .single-tamil-word {
+  color: #ddd6fe;
+  text-shadow: 0 0 35px rgba(139, 92, 246, 0.7);
+}
+.slide-6 .kid-hint { border-left-color: var(--theme-s6); }
+
+/* Slide 7: Guaranteed Return */
+.slide-7 {
+  background: radial-gradient(circle at 50% 30%, #362804 0%, var(--bg-dark) 80%);
+}
+.slide-7 .single-tamil-word {
+  color: #fef08a;
+  text-shadow: 0 0 40px rgba(234, 179, 8, 0.8);
+}
+.slide-7 .kid-hint { border-left-color: var(--theme-s7); }
+
+/* Slide 8: The Reverse-Snap Finale Stage Base */
+.slide-8-finale {
+  background: radial-gradient(circle at 50% 40%, #3b0818 0%, var(--bg-dark) 85%);
   perspective: 1000px;
 }
 
-/* ==========================================================================
-   SECTION 5: CINEMATIC MAGNETIC ASSEMBLY ENGINE (THE IRON MAN SNAP)
-   ========================================================================== */
-
-.assembly-stage {
+.finale-stage {
   width: 100%;
-  max-width: 960px;
+  max-width: 980px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -342,46 +251,18 @@ html, body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   box-shadow: 0 0 50px rgba(244, 63, 94, 0.15);
-  overflow: hidden;
 }
 
-.assembly-stage::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(244, 63, 94, 0.08) 0%, transparent 60%);
-  opacity: 0.6;
-  pointer-events: none;
-  animation: reactorPulse 6s ease-in-out infinite;
-}
-
-@keyframes reactorPulse {
-  0%, 100% { transform: scale(1); opacity: 0.4; }
-  50% { transform: scale(1.15); opacity: 0.8; }
-}
-
-.assembly-subheading {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.words-container {
+.snap-words-assembly {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1rem;
   width: 100%;
   margin: 1.25rem 0;
-  position: relative;
 }
 
-.snap-line {
+.snap-row {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -389,87 +270,45 @@ html, body {
   gap: 0.75rem 1.5rem;
 }
 
-/* Base Scattered Word State: Heavily Blurred, Rotated, Scaled & Thrown Off-Screen */
 .snap-word {
   font-family: var(--font-tamil);
-  font-size: clamp(2.25rem, 6.5vw, 4rem);
+  font-size: clamp(2rem, 5.5vw, 3.6rem);
   font-weight: 800;
-  line-height: 1.15;
+  line-height: 1.2;
   color: #fff;
   display: inline-block;
-  will-change: transform, opacity, filter;
-  opacity: 0;
-  filter: blur(16px) brightness(2);
-  transition: transform 0.85s var(--ease-magnetic-snap),
-              opacity 0.6s var(--ease-smooth),
-              filter 0.7s var(--ease-smooth),
-              color 0.5s var(--ease-smooth),
-              text-shadow 0.5s var(--ease-smooth);
 }
 
-/* Scattered Coordinates for Each of the 7 Words */
-.assembly-stage:not(.is-assembled) .word-1 {
-  transform: translate3d(-340px, -240px, 80px) rotate(-32deg) scale(2.2);
-}
-.assembly-stage:not(.is-assembled) .word-2 {
-  transform: translate3d(320px, -300px, 60px) rotate(26deg) scale(2.0);
-}
-.assembly-stage:not(.is-assembled) .word-3 {
-  transform: translate3d(-420px, 140px, 100px) rotate(-38deg) scale(2.3);
-}
-.assembly-stage:not(.is-assembled) .word-4 {
-  transform: translate3d(380px, -120px, 50px) rotate(20deg) scale(2.1);
-}
-.assembly-stage:not(.is-assembled) .word-5 {
-  transform: translate3d(-280px, 300px, 90px) rotate(35deg) scale(2.4);
-}
-.assembly-stage:not(.is-assembled) .word-6 {
-  transform: translate3d(340px, 260px, 70px) rotate(-24deg) scale(2.0);
-}
-.assembly-stage:not(.is-assembled) .word-7 {
-  transform: translate3d(0px, 420px, 120px) rotate(16deg) scale(2.6);
-}
-
-/* Magnetic Assembly Triggered State (.is-assembled) */
-.assembly-stage.is-assembled .snap-word {
-  opacity: 1;
-  filter: blur(0px) brightness(1);
-  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-  color: #fef08a;
-  text-shadow: 0 0 30px rgba(251, 191, 36, 0.8);
-}
-
-/* Staggered Magnetic Snap Delays */
-.assembly-stage.is-assembled .word-1 { transition-delay: 0.10s; }
-.assembly-stage.is-assembled .word-2 { transition-delay: 0.22s; }
-.assembly-stage.is-assembled .word-3 { transition-delay: 0.34s; }
-.assembly-stage.is-assembled .word-4 { transition-delay: 0.46s; }
-.assembly-stage.is-assembled .word-5 { transition-delay: 0.58s; }
-.assembly-stage.is-assembled .word-6 { transition-delay: 0.70s; }
-.assembly-stage.is-assembled .word-7 {
-  transition-delay: 0.85s;
-  color: #ffffff;
-  text-shadow: 0 0 45px rgba(251, 191, 36, 1), 0 0 20px rgba(244, 63, 94, 0.8);
-}
-
-/* Post-Assembly Text & Button Cascades */
-.assembly-translation {
-  font-size: clamp(1.05rem, 2.6vw, 1.25rem);
-  color: #fed7aa;
+.finale-meaning {
+  width: 100%;
   max-width: 680px;
-  line-height: 1.55;
-  font-style: italic;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-spring);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.assembly-stage.is-assembled .assembly-translation {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 1.05s;
+.badge-kural {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-full);
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.4);
 }
 
+.meaning-quote {
+  font-size: clamp(1.2rem, 3.2vw, 1.55rem);
+  font-weight: 800;
+  color: #fef08a;
+  line-height: 1.4;
+  text-shadow: 0 0 25px rgba(251, 191, 36, 0.5);
+}
+
+/* --- Replay Button & Scroll Prompts --- */
 .replay-btn {
   background: linear-gradient(135deg, #f43f5e, #e11d48);
   color: #fff;
@@ -480,49 +319,22 @@ html, body {
   border: none;
   cursor: pointer;
   box-shadow: 0 6px 25px rgba(244, 63, 94, 0.5);
-  opacity: 0;
-  transform: translateY(20px) scale(0.95);
-  transition: opacity 0.8s var(--ease-smooth),
-              transform var(--duration-fast) var(--ease-spring),
-              box-shadow var(--duration-fast) var(--ease-smooth);
 }
 
-.assembly-stage.is-assembled .replay-btn {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition-delay: 1.25s;
-}
-
-.replay-btn:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 10px 35px rgba(244, 63, 94, 0.7);
-}
-
-.replay-btn:active {
-  transform: translateY(0) scale(0.97);
-}
-
-/* --- Scroll Prompt Indicator & Mouse Bobbing --- */
-.scroll-hint {
+.scroll-prompt {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
   color: var(--text-muted);
   font-size: 0.85rem;
-  margin-top: 1rem;
-  animation: hintBob 2s infinite ease-in-out;
+  margin-top: 0.5rem;
 }
 
-@keyframes hintBob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(5px); }
-}
-
-.next-hint {
-  color: var(--accent-payoff);
+.finale-prompt {
+  color: #fef08a;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .mouse-icon {
@@ -543,29 +355,15 @@ html, body {
   height: 6px;
   background: var(--text-muted);
   border-radius: 2px;
-  animation: wheelTick 1.8s infinite ease-in-out;
-}
-
-@keyframes wheelTick {
-  0% { opacity: 1; transform: translate(-50%, 0); }
-  100% { opacity: 0; transform: translate(-50%, 10px); }
 }
 
 /* --- Responsive Adjustments --- */
 @media (max-width: 640px) {
-  .content-wrapper,
-  .assembly-stage {
+  .slide-content,
+  .finale-stage {
     padding: 2rem 1.25rem;
   }
-  .powerup-grid {
-    grid-template-columns: 1fr;
-  }
-  .powerup-card {
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 0.75rem 1.25rem;
-  }
-  .snap-line {
+  .snap-row {
     gap: 0.5rem 0.85rem;
   }
 }
