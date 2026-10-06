@@ -15,13 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Video Time Segments for High-Quality Looping (Start, End in seconds)
   const videoConfig = {
-    1: { el: document.getElementById('vid-1'), start: 0, end: 9.3 },
-    2: { el: document.getElementById('vid-2'), start: 47.0, end: 54.0 },
-    3: { el: document.getElementById('vid-3'), start: 0, end: 9.0 },
-    4: { el: document.getElementById('vid-4'), start: 33.0, end: 38.0 },
-    5: { el: document.getElementById('vid-5'), start: 0, end: 4.0 },
-    6: { el: document.getElementById('vid-6'), start: 140.0, end: 151.0 },
-    7: { el: document.getElementById('vid-7'), start: 44.0, end: 55.0 }
+    1: { el: document.getElementById('vid-1'), start: 0, end: 9.32 },
+    2: { el: document.getElementById('vid-2'), start: 0, end: 6.96 },
+    3: { el: document.getElementById('vid-3'), start: 0, end: 9.01 },
+    4: { el: document.getElementById('vid-4'), start: 0, end: 5.00 },
+    5: { el: document.getElementById('vid-5'), start: 0, end: 4.00 },
+    6: { el: document.getElementById('vid-6'), start: 0, end: 10.97 },
+    7: { el: document.getElementById('vid-7'), start: 0, end: 11.01 }
   };
 
   const allBgVideos = Object.values(videoConfig).map(cfg => cfg.el).filter(Boolean);
