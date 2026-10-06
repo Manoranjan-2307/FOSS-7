@@ -1,6 +1,6 @@
 /* ==========================================================================
    THE 7-WORD SPRINT | KURAL 619
-   Commit 4: Narrative Polish - CSS Animations & Micro-Interactions (Sections 1-4)
+   Commit 5: The Cinematic Iron Man Magnetic Assembly Engine (Section 5)
    ========================================================================== */
 
 /* --- Custom Properties / Design Tokens --- */
@@ -18,7 +18,7 @@
   --accent-fate: #38bdf8;       /* Storm Cyan */
   --accent-effort: #34d399;     /* Energetic Emerald */
   --accent-payoff: #fbbf24;     /* Celebratory Gold */
-  --accent-finale: #f43f5e;     /* Arc Reactor Crimson/Rose */
+  --accent-finale: #f43f5e;     /* Arc Reactor Crimson */
 
   /* Typography */
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -32,12 +32,12 @@
 
   /* Shadows */
   --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
-  --shadow-glow-gold: 0 0 35px rgba(251, 191, 36, 0.3);
+  --shadow-glow-gold: 0 0 45px rgba(251, 191, 36, 0.5);
 
-  /* Framer-Motion Grade Custom Easing */
+  /* Framer-Motion Physics Easing Curves */
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-magnetic-snap: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
   --duration-fast: 200ms;
   --duration-normal: 450ms;
@@ -69,10 +69,10 @@ html, body {
   left: 0;
   width: 0%;
   height: 4px;
-  background: linear-gradient(90deg, var(--accent-hook), var(--accent-effort), var(--accent-payoff));
+  background: linear-gradient(90deg, var(--accent-hook), var(--accent-effort), var(--accent-payoff), var(--accent-finale));
   z-index: 1000;
   transition: width 0.15s ease-out;
-  box-shadow: 0 0 12px rgba(251, 191, 36, 0.8);
+  box-shadow: 0 0 14px rgba(244, 63, 94, 0.8);
 }
 
 /* --- Full-Page Scroll-Snap Container --- */
@@ -124,7 +124,6 @@ html, body {
    SECTIONS 1–4 ANIMATION ENGINE (Fade-in, Slide-up, Staggered Delays)
    ========================================================================== */
 
-/* Initial State: Hidden & Shifted Down */
 .screen-section:not(#section-5) .reveal-item > * {
   opacity: 0;
   transform: translateY(28px) scale(0.96);
@@ -133,7 +132,6 @@ html, body {
   will-change: opacity, transform;
 }
 
-/* Active In-View State: Cascading Staggered Delays */
 .screen-section.is-visible:not(#section-5) .reveal-item > *:nth-child(1) {
   opacity: 1;
   transform: translateY(0) scale(1);
@@ -204,9 +202,10 @@ html, body {
 }
 
 .badge-assembly {
-  background: rgba(244, 63, 94, 0.15);
+  background: rgba(244, 63, 94, 0.18);
   color: #fda4af;
-  border-color: rgba(244, 63, 94, 0.4);
+  border-color: rgba(244, 63, 94, 0.5);
+  box-shadow: 0 0 15px rgba(244, 63, 94, 0.3);
 }
 
 .hero-title {
@@ -318,13 +317,17 @@ html, body {
 }
 
 .section-finale {
-  background: radial-gradient(circle at 50% 40%, #2b0b14 0%, var(--bg-dark) 85%);
+  background: radial-gradient(circle at 50% 40%, #380816 0%, var(--bg-dark) 85%);
+  perspective: 1000px;
 }
 
-/* --- Section 5: Assembly Stage Layout Base --- */
+/* ==========================================================================
+   SECTION 5: CINEMATIC MAGNETIC ASSEMBLY ENGINE (THE IRON MAN SNAP)
+   ========================================================================== */
+
 .assembly-stage {
   width: 100%;
-  max-width: 900px;
+  max-width: 960px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -332,21 +335,50 @@ html, body {
   gap: 1.5rem;
   position: relative;
   z-index: 2;
-  padding: 2rem 1rem;
+  padding: 2.5rem 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(244, 63, 94, 0.25);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 0 50px rgba(244, 63, 94, 0.15);
+  overflow: hidden;
+}
+
+.assembly-stage::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(244, 63, 94, 0.08) 0%, transparent 60%);
+  opacity: 0.6;
+  pointer-events: none;
+  animation: reactorPulse 6s ease-in-out infinite;
+}
+
+@keyframes reactorPulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.15); opacity: 0.8; }
 }
 
 .assembly-subheading {
   font-size: 1.1rem;
+  font-weight: 600;
   color: var(--text-secondary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .words-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 1.25rem;
   width: 100%;
-  margin: 1.5rem 0;
+  margin: 1.25rem 0;
+  position: relative;
 }
 
 .snap-line {
@@ -354,46 +386,123 @@ html, body {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.75rem 1.25rem;
+  gap: 0.75rem 1.5rem;
 }
 
+/* Base Scattered Word State: Heavily Blurred, Rotated, Scaled & Thrown Off-Screen */
 .snap-word {
   font-family: var(--font-tamil);
-  font-size: clamp(2rem, 5.5vw, 3.5rem);
+  font-size: clamp(2.25rem, 6.5vw, 4rem);
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.15;
   color: #fff;
   display: inline-block;
+  will-change: transform, opacity, filter;
+  opacity: 0;
+  filter: blur(16px) brightness(2);
+  transition: transform 0.85s var(--ease-magnetic-snap),
+              opacity 0.6s var(--ease-smooth),
+              filter 0.7s var(--ease-smooth),
+              color 0.5s var(--ease-smooth),
+              text-shadow 0.5s var(--ease-smooth);
 }
 
+/* Scattered Coordinates for Each of the 7 Words */
+.assembly-stage:not(.is-assembled) .word-1 {
+  transform: translate3d(-340px, -240px, 80px) rotate(-32deg) scale(2.2);
+}
+.assembly-stage:not(.is-assembled) .word-2 {
+  transform: translate3d(320px, -300px, 60px) rotate(26deg) scale(2.0);
+}
+.assembly-stage:not(.is-assembled) .word-3 {
+  transform: translate3d(-420px, 140px, 100px) rotate(-38deg) scale(2.3);
+}
+.assembly-stage:not(.is-assembled) .word-4 {
+  transform: translate3d(380px, -120px, 50px) rotate(20deg) scale(2.1);
+}
+.assembly-stage:not(.is-assembled) .word-5 {
+  transform: translate3d(-280px, 300px, 90px) rotate(35deg) scale(2.4);
+}
+.assembly-stage:not(.is-assembled) .word-6 {
+  transform: translate3d(340px, 260px, 70px) rotate(-24deg) scale(2.0);
+}
+.assembly-stage:not(.is-assembled) .word-7 {
+  transform: translate3d(0px, 420px, 120px) rotate(16deg) scale(2.6);
+}
+
+/* Magnetic Assembly Triggered State (.is-assembled) */
+.assembly-stage.is-assembled .snap-word {
+  opacity: 1;
+  filter: blur(0px) brightness(1);
+  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  color: #fef08a;
+  text-shadow: 0 0 30px rgba(251, 191, 36, 0.8);
+}
+
+/* Staggered Magnetic Snap Delays */
+.assembly-stage.is-assembled .word-1 { transition-delay: 0.10s; }
+.assembly-stage.is-assembled .word-2 { transition-delay: 0.22s; }
+.assembly-stage.is-assembled .word-3 { transition-delay: 0.34s; }
+.assembly-stage.is-assembled .word-4 { transition-delay: 0.46s; }
+.assembly-stage.is-assembled .word-5 { transition-delay: 0.58s; }
+.assembly-stage.is-assembled .word-6 { transition-delay: 0.70s; }
+.assembly-stage.is-assembled .word-7 {
+  transition-delay: 0.85s;
+  color: #ffffff;
+  text-shadow: 0 0 45px rgba(251, 191, 36, 1), 0 0 20px rgba(244, 63, 94, 0.8);
+}
+
+/* Post-Assembly Text & Button Cascades */
 .assembly-translation {
-  font-size: clamp(1rem, 2.4vw, 1.15rem);
+  font-size: clamp(1.05rem, 2.6vw, 1.25rem);
   color: #fed7aa;
-  max-width: 640px;
-  line-height: 1.5;
+  max-width: 680px;
+  line-height: 1.55;
   font-style: italic;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-spring);
 }
 
-/* --- Replay Button & Hints --- */
+.assembly-stage.is-assembled .assembly-translation {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.05s;
+}
+
 .replay-btn {
   background: linear-gradient(135deg, #f43f5e, #e11d48);
   color: #fff;
   font-size: 1.05rem;
-  font-weight: 700;
-  padding: 0.9rem 2rem;
+  font-weight: 800;
+  padding: 0.95rem 2.25rem;
   border-radius: var(--radius-full);
   border: none;
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(244, 63, 94, 0.4);
-  transition: transform var(--duration-fast) var(--ease-spring),
+  box-shadow: 0 6px 25px rgba(244, 63, 94, 0.5);
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: opacity 0.8s var(--ease-smooth),
+              transform var(--duration-fast) var(--ease-spring),
               box-shadow var(--duration-fast) var(--ease-smooth);
 }
 
-.replay-btn:hover {
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 10px 25px rgba(244, 63, 94, 0.6);
+.assembly-stage.is-assembled .replay-btn {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-delay: 1.25s;
 }
 
+.replay-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 35px rgba(244, 63, 94, 0.7);
+}
+
+.replay-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* --- Scroll Prompt Indicator & Mouse Bobbing --- */
 .scroll-hint {
   display: flex;
   flex-direction: column;
@@ -444,7 +553,8 @@ html, body {
 
 /* --- Responsive Adjustments --- */
 @media (max-width: 640px) {
-  .content-wrapper {
+  .content-wrapper,
+  .assembly-stage {
     padding: 2rem 1.25rem;
   }
   .powerup-grid {
@@ -454,5 +564,8 @@ html, body {
     flex-direction: row;
     justify-content: space-between;
     padding: 0.75rem 1.25rem;
+  }
+  .snap-line {
+    gap: 0.5rem 0.85rem;
   }
 }
