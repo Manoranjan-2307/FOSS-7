@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="The 7-Word Sprint: Thirukkural 619 explained to a 5th grader through a 7-word progression, Iron Man Snap transition, and sequential sentence assembly.">
+  <meta name="description" content="The 7-Word Sprint: Thirukkural 619 explained to a 5th grader through Captain America's journey, 7-video background crossfading, and an Iron Man Snap finale.">
   <title>The 7-Word Sprint | Kural 619</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -12,19 +12,32 @@
   <!-- Global White Flash Overlay for Invisible Instant Jump -->
   <div class="white-flash-overlay" id="whiteFlashOverlay" aria-hidden="true"></div>
 
+  <!-- FIXED PERFORMANCE CINEMATIC BACKGROUND (Crossfading 7 Video Streams) -->
+  <div id="cinematic-bg" aria-hidden="true">
+    <video id="bg-video-1" class="bg-video active-bg" src="bg-vid-1.mp4" muted loop playsinline preload="auto"></video>
+    <video id="bg-video-2" class="bg-video" src="bg-vid-2.mp4" muted loop playsinline preload="auto"></video>
+    <video id="bg-video-3" class="bg-video" src="bg-vid-3.mp4" muted loop playsinline preload="auto"></video>
+    <video id="bg-video-4" class="bg-video" src="bg-vid-4.mp4" muted loop playsinline preload="auto"></video>
+    <video id="bg-video-5" class="bg-video" src="bg-vid-5.mp4" muted loop playsinline preload="auto"></video>
+    <video id="bg-video-6" class="bg-video" src="bg-vid-6.mp4" muted loop playsinline preload="auto"></video>
+    <video id="bg-video-7" class="bg-video" src="bg-vid-7.mp4" muted loop playsinline preload="auto"></video>
+    <!-- High-Contrast Dark Gradient Overlay for Crisp Text Readability -->
+    <div class="cinematic-overlay"></div>
+  </div>
+
   <!-- Top Scroll Progress Bar -->
   <div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 
   <!-- Main Scroll Container -->
   <main class="scroll-container" id="scrollContainer">
 
-    <!-- SLIDE 1: Word 1 - தெய்வத்தான் -->
-    <section class="slide-section slide-1" id="slide-1" aria-label="Slide 1: தெய்வத்தான்">
-      <div class="slide-content">
+    <!-- SLIDE 1: Word 1 - தெய்வத்தான் (Fate / The Pre-Serum Struggle) -->
+    <section class="slide-section slide-1" id="slide-1" data-slide-index="1" aria-label="Slide 1: தெய்வத்தான்">
+      <div class="slide-content transparent-card">
         <span class="slide-badge">Word 1 of 7</span>
         <h1 class="single-tamil-word" lang="ta">தெய்வத்தான்</h1>
         <p class="phonetic">Deivath-thaan</p>
-        <p class="kid-hint">🌌 <strong>Fate / Bad Luck:</strong> The weather, rainy game days, or things totally outside your control.</p>
+        <p class="kid-hint">🌌 <strong>Fate & Circumstance:</strong> Steve Rogers started small and frail. Fate gave him no superpowers or unfair shortcuts.</p>
         <div class="scroll-prompt" aria-hidden="true">
           <span class="mouse-icon"></span>
           <span class="prompt-label">Scroll to reveal Word 2 ↓</span>
@@ -32,63 +45,63 @@
       </div>
     </section>
 
-    <!-- SLIDE 2: Word 2 - ஆகா -->
-    <section class="slide-section slide-2" id="slide-2" aria-label="Slide 2: ஆகா">
-      <div class="slide-content">
+    <!-- SLIDE 2: Word 2 - ஆகா (Denied / Cannot Do It) -->
+    <section class="slide-section slide-2" id="slide-2" data-slide-index="2" aria-label="Slide 2: ஆகா">
+      <div class="slide-content transparent-card">
         <span class="slide-badge">Word 2 of 7</span>
         <h2 class="single-tamil-word" lang="ta">ஆகா</h2>
         <p class="phonetic">Aa-gaa</p>
-        <p class="kid-hint">🌧️ <strong>Cannot do it:</strong> When luck blocks your goal and says "Impossible today!"</p>
+        <p class="kid-hint">🚫 <strong>When Fate Says Impossible:</strong> Every enlistment officer stamped his papers: "REJECTED. You cannot do this."</p>
       </div>
     </section>
 
-    <!-- SLIDE 3: Word 3 - தெனினும் -->
-    <section class="slide-section slide-3" id="slide-3" aria-label="Slide 3: தெனினும்">
-      <div class="slide-content">
+    <!-- SLIDE 3: Word 3 - தெனினும் (Even If / But Still) -->
+    <section class="slide-section slide-3" id="slide-3" data-slide-index="3" aria-label="Slide 3: தெனினும்">
+      <div class="slide-content transparent-card">
         <span class="slide-badge">Word 3 of 7</span>
         <h2 class="single-tamil-word" lang="ta">தெனினும்</h2>
         <p class="phonetic">The-ni-num</p>
-        <p class="kid-hint">🤔 <strong>Even if:</strong> But even when fate slams the door shut...</p>
+        <p class="kid-hint">🤔 <strong>Even Then:</strong> Even when the world told him it was impossible, did he give up? Not for a second.</p>
       </div>
     </section>
 
-    <!-- SLIDE 4: Word 4 - முயற்சிதன் -->
-    <section class="slide-section slide-4" id="slide-4" aria-label="Slide 4: முயற்சிதன்">
-      <div class="slide-content">
+    <!-- SLIDE 4: Word 4 - முயற்சிதன் (One's Own Hard Effort) -->
+    <section class="slide-section slide-4" id="slide-4" data-slide-index="4" aria-label="Slide 4: முயற்சிதன்">
+      <div class="slide-content transparent-card">
         <span class="slide-badge">Word 4 of 7</span>
         <h2 class="single-tamil-word" lang="ta">முயற்சிதன்</h2>
         <p class="phonetic">Mu-yar-chi-than</p>
-        <p class="kid-hint">🔥 <strong>Your hard work:</strong> The 6 AM practice and effort that belongs ONLY to you.</p>
+        <p class="kid-hint">🔥 <strong>Your Own Hard Work:</strong> He dove onto what he thought was a live grenade. The true hero was inside him all along.</p>
       </div>
     </section>
 
-    <!-- SLIDE 5: Word 5 - மெய்வருத்தக் -->
-    <section class="slide-section slide-5" id="slide-5" aria-label="Slide 5: மெய்வருத்தக்">
-      <div class="slide-content">
+    <!-- SLIDE 5: Word 5 - மெய்வருத்தக் (Physical Sweat & Grind) -->
+    <section class="slide-section slide-5" id="slide-5" data-slide-index="5" aria-label="Slide 5: மெய்வருத்தக்">
+      <div class="slide-content transparent-card">
         <span class="slide-badge">Word 5 of 7</span>
         <h2 class="single-tamil-word" lang="ta">மெய்வருத்தக்</h2>
         <p class="phonetic">Mey-va-ruth-thak</p>
-        <p class="kid-hint">💪 <strong>Physical effort & sweat:</strong> Every sore muscle and drop of sweat leveling up your body.</p>
+        <p class="kid-hint">💪 <strong>Bodily Effort & Sweat:</strong> "I can do this all day." Every bruise, sprint, and drop of sweat made his spirit unbreakable.</p>
       </div>
     </section>
 
-    <!-- SLIDE 6: Word 6 - கூலி -->
-    <section class="slide-section slide-6" id="slide-6" aria-label="Slide 6: கூலி">
-      <div class="slide-content">
+    <!-- SLIDE 6: Word 6 - கூலி (The Real Reward) -->
+    <section class="slide-section slide-6" id="slide-6" data-slide-index="6" aria-label="Slide 6: கூலி">
+      <div class="slide-content transparent-card">
         <span class="slide-badge">Word 6 of 7</span>
         <h2 class="single-tamil-word" lang="ta">கூலி</h2>
         <p class="phonetic">Koo-li</p>
-        <p class="kid-hint">🎁 <strong>The reward:</strong> The real prize—strength, speed, and skill locked inside you forever.</p>
+        <p class="kid-hint">🛡️ <strong>The Real Reward:</strong> The shield and the serum were just tools. The real reward was his worthy, unconquerable heart.</p>
       </div>
     </section>
 
-    <!-- SLIDE 7: Word 7 - தரும் -->
-    <section class="slide-section slide-7" id="slide-7" aria-label="Slide 7: தரும்">
-      <div class="slide-content">
+    <!-- SLIDE 7: Word 7 - தரும் (Guaranteed Payoff) -->
+    <section class="slide-section slide-7" id="slide-7" data-slide-index="7" aria-label="Slide 7: தரும்">
+      <div class="slide-content transparent-card">
         <span class="slide-badge">Word 7 of 7</span>
         <h2 class="single-tamil-word" lang="ta">தரும்</h2>
         <p class="phonetic">Tha-rum</p>
-        <p class="kid-hint">⚡ <strong>Will be given:</strong> 100% guaranteed to pay you back in full!</p>
+        <p class="kid-hint">⚡ <strong>Guaranteed Always:</strong> When the universe stood on the brink, he was worthy to lift Mjolnir itself!</p>
         <div class="scroll-prompt snap-alert" aria-hidden="true">
           <span class="prompt-label">Ready for the Iron Man Snap? Scroll down ↓</span>
         </div>
@@ -111,7 +124,7 @@
       </div>
     </section>
 
-    <!-- SLIDE 9: The Assembly (Elegant Slow Fade Sequence) -->
+    <!-- SLIDE 9: The Reverse-Snap Assembly Finale -->
     <section class="slide-section slide-9-assembly" id="slide-9" aria-label="Slide 9: The Assembly">
       <div class="assembly-card" id="assemblyCard">
         <span class="badge-assembly">திருக்குறள் 619 • Thirukkural 619</span>

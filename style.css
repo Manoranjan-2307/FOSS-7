@@ -1,14 +1,14 @@
 /* ==========================================================================
    THE 7-WORD SPRINT | KURAL 619
-   Commit: Slow Cinematic Flash & Slide 9 Sequential Reveal
+   Fixed Multi-Video Background Architecture & Crossfade Physics
    ========================================================================== */
 
 /* --- Custom Properties / Design Tokens --- */
 :root {
   /* Core Base Colors */
   --bg-dark: #070913;
-  --bg-card: rgba(255, 255, 255, 0.05);
-  --border-glass: rgba(255, 255, 255, 0.12);
+  --bg-card: rgba(15, 23, 42, 0.45);
+  --border-glass: rgba(255, 255, 255, 0.16);
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
@@ -33,7 +33,7 @@
   --radius-md: 16px;
   --radius-lg: 24px;
   --radius-full: 9999px;
-  --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
 
   /* Physics Curves */
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -64,7 +64,49 @@ html, body {
 }
 
 /* ==========================================================================
-   1. GLOBAL WHITE FLASH OVERLAY (Cinematic Smooth Crossfade)
+   1. FIXED CINEMATIC BACKGROUND & 7-VIDEO CROSSFADE ENGINE
+   ========================================================================== */
+#cinematic-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  background-color: var(--bg-dark);
+  transition: opacity 0.8s ease-in-out;
+}
+
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  will-change: opacity;
+}
+
+.bg-video.active-bg {
+  opacity: 1;
+}
+
+/* Dark Contrast Overlay for Razor-Sharp Text Readability */
+.cinematic-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(7, 9, 19, 0.55) 0%, rgba(7, 9, 19, 0.82) 100%);
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   2. GLOBAL WHITE FLASH OVERLAY
    ========================================================================== */
 .white-flash-overlay {
   position: fixed;
@@ -118,24 +160,25 @@ html, body {
   padding: 3rem 1.5rem;
   position: relative;
   overflow: hidden;
+  background: transparent !important;
 }
 
-/* --- Slide Content Card Glassmorphism (Slides 1–7) --- */
-.slide-content {
+/* --- Transparent Glass Cards for Slides 1–7 --- */
+.slide-content.transparent-card {
   width: 100%;
-  max-width: 720px;
-  background: var(--bg-card);
+  max-width: 760px;
+  background: rgba(7, 9, 19, 0.55);
   border: 1px solid var(--border-glass);
   border-radius: var(--radius-lg);
-  padding: 3rem 2.25rem;
-  box-shadow: var(--shadow-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  padding: 3.25rem 2.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1.35rem;
   position: relative;
   z-index: 2;
   transition: transform var(--duration-normal) var(--ease-smooth);
@@ -187,19 +230,20 @@ html, body {
   font-weight: 700;
   padding: 0.35rem 0.95rem;
   border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .single-tamil-word {
   font-family: var(--font-tamil);
-  font-size: clamp(3.2rem, 9.5vw, 5.5rem);
+  font-size: clamp(3.4rem, 10vw, 5.8rem);
   font-weight: 800;
   line-height: 1.1;
   color: #ffffff;
   letter-spacing: -0.02em;
   cursor: default;
+  text-shadow: 0 0 35px rgba(255, 255, 255, 0.5), 0 4px 12px rgba(0, 0, 0, 0.8);
   transition: transform var(--duration-fast) var(--ease-spring);
 }
 
@@ -208,61 +252,43 @@ html, body {
 }
 
 .phonetic {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-style: italic;
-  color: var(--text-secondary);
+  color: #cbd5e1;
   margin-top: -0.5rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .kid-hint {
   font-size: clamp(1.05rem, 2.8vw, 1.25rem);
-  color: #f1f5f9;
-  background: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.45);
   padding: 1.1rem 1.6rem;
   border-radius: var(--radius-md);
   border-left: 4px solid var(--theme-s1);
   width: 100%;
-  max-width: 600px;
+  max-width: 640px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
 
 .kid-hint strong {
-  color: #ffffff;
+  color: #fef08a;
 }
 
-/* --- Atmospheres (Slides 1–7) --- */
-.slide-1 { background: radial-gradient(circle at 50% 30%, #15163c 0%, var(--bg-dark) 80%); }
-.slide-1 .single-tamil-word { color: #c7d2fe; text-shadow: 0 0 35px rgba(99, 102, 241, 0.7); }
+/* Border Accent Colors for Slides 1–7 */
 .slide-1 .kid-hint { border-left-color: var(--theme-s1); }
-
-.slide-2 { background: radial-gradient(circle at 50% 35%, #082238 0%, var(--bg-dark) 80%); }
-.slide-2 .single-tamil-word { color: #bae6fd; text-shadow: 0 0 35px rgba(56, 189, 248, 0.7); }
 .slide-2 .kid-hint { border-left-color: var(--theme-s2); }
-
-.slide-3 { background: radial-gradient(circle at 50% 35%, #2b1f0c 0%, var(--bg-dark) 80%); }
-.slide-3 .single-tamil-word { color: #fde68a; text-shadow: 0 0 35px rgba(245, 158, 11, 0.7); }
 .slide-3 .kid-hint { border-left-color: var(--theme-s3); }
-
-.slide-4 { background: radial-gradient(circle at 50% 40%, #351307 0%, var(--bg-dark) 80%); }
-.slide-4 .single-tamil-word { color: #fed7aa; text-shadow: 0 0 35px rgba(249, 115, 22, 0.7); }
 .slide-4 .kid-hint { border-left-color: var(--theme-s4); }
-
-.slide-5 { background: radial-gradient(circle at 50% 35%, #092c1e 0%, var(--bg-dark) 80%); }
-.slide-5 .single-tamil-word { color: #a7f3d0; text-shadow: 0 0 35px rgba(16, 185, 129, 0.7); }
 .slide-5 .kid-hint { border-left-color: var(--theme-s5); }
-
-.slide-6 { background: radial-gradient(circle at 50% 35%, #241142 0%, var(--bg-dark) 80%); }
-.slide-6 .single-tamil-word { color: #ddd6fe; text-shadow: 0 0 35px rgba(139, 92, 246, 0.7); }
 .slide-6 .kid-hint { border-left-color: var(--theme-s6); }
-
-.slide-7 { background: radial-gradient(circle at 50% 30%, #362804 0%, var(--bg-dark) 80%); }
-.slide-7 .single-tamil-word { color: #fef08a; text-shadow: 0 0 40px rgba(234, 179, 8, 0.8); }
 .slide-7 .kid-hint { border-left-color: var(--theme-s7); }
 
 /* ==========================================================================
-   2. SLIDE 8: THE VIDEO CONTAINER
+   3. SLIDE 8: THE VIDEO CONTAINER
    ========================================================================== */
 .slide-8-video {
-  background: #000000;
+  background: #000000 !important;
   padding: 2rem 1.5rem;
 }
 
@@ -296,10 +322,10 @@ html, body {
 }
 
 /* ==========================================================================
-   3. SLIDE 9: REVERSE-SNAP ASSEMBLY WITH SLOW-PACED SEQUENTIAL FADE-IN
+   4. SLIDE 9: REVERSE-SNAP ASSEMBLY & RELATIVE TRANSLATION
    ========================================================================== */
 .slide-9-assembly {
-  background: radial-gradient(circle at 50% 35%, #382504 0%, var(--bg-dark) 85%);
+  background: radial-gradient(circle at 50% 35%, #382504 0%, var(--bg-dark) 85%) !important;
 }
 
 .assembly-card {
@@ -335,7 +361,6 @@ html, body {
   box-shadow: 0 0 15px rgba(251, 191, 36, 0.25);
 }
 
-/* Traditional 2-Line Kural Structure */
 .kural-poem-container {
   display: flex;
   flex-direction: column;
@@ -353,7 +378,6 @@ html, body {
   gap: 0.75rem 1.5rem;
 }
 
-/* Smooth, Gentle Fade-in Words */
 .kural-fade-word {
   font-family: var(--font-tamil);
   font-size: clamp(2.2rem, 5.8vw, 3.8rem);
@@ -372,7 +396,6 @@ html, body {
   will-change: opacity, transform, filter;
 }
 
-/* Triggered State: Slower, Majestic Cadence for Each Word */
 .assembly-card.assembled .kural-fade-word {
   opacity: 1;
   transform: translateY(0);
@@ -381,7 +404,6 @@ html, body {
   text-shadow: 0 0 25px rgba(251, 191, 36, 0.6);
 }
 
-/* Sequential Staggered Delays (Words 1 to 7) */
 .assembly-card.assembled .word-1 { transition-delay: 0.25s; }
 .assembly-card.assembled .word-2 { transition-delay: 0.75s; }
 .assembly-card.assembled .word-3 { transition-delay: 1.25s; }
@@ -394,7 +416,6 @@ html, body {
   text-shadow: 0 0 40px rgba(251, 191, 36, 1), 0 0 20px rgba(244, 63, 94, 0.7);
 }
 
-/* Relative English Translation Section */
 .kural-meaning-box {
   width: 100%;
   max-width: 760px;
@@ -434,7 +455,6 @@ html, body {
   transition-delay: 4.50s;
 }
 
-/* 5th-Grader Takeaway Highlight Box */
 .kid-takeaway-banner {
   background: linear-gradient(135deg, rgba(251, 191, 36, 0.12), rgba(245, 158, 11, 0.05));
   border: 1px solid rgba(251, 191, 36, 0.35);
@@ -473,7 +493,6 @@ html, body {
   text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
 }
 
-/* Replay Button */
 .replay-btn {
   background: linear-gradient(135deg, #fbbf24, #d97706);
   color: #000;
@@ -557,7 +576,7 @@ html, body {
 
 /* --- Responsive Adjustments --- */
 @media (max-width: 640px) {
-  .slide-content,
+  .slide-content.transparent-card,
   .assembly-card {
     padding: 2rem 1.25rem;
   }

@@ -1,6 +1,6 @@
 /**
  * The 7-Word Sprint | Kural 619
- * Grand Finale Engine: Cinematic Slow White-Flash Transition & Slide 9 Assembly
+ * Crossfading Background Video Engine (Slides 1-7) & Grand Finale (Slides 8-9)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,10 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const progressBar = document.getElementById('progressBar');
   const slides = document.querySelectorAll('.slide-section');
   const replayBtn = document.getElementById('replayBtn');
-  const video = document.getElementById('ironManVideo');
+  const snapVideo = document.getElementById('ironManVideo');
   const slide9 = document.getElementById('slide-9');
   const assemblyCard = document.getElementById('assemblyCard');
   const whiteFlash = document.getElementById('whiteFlashOverlay');
+  const bgVideos = document.querySelectorAll('.bg-video');
 
   if (!scrollContainer || !slides.length) return;
 
@@ -34,7 +35,38 @@ document.addEventListener('DOMContentLoaded', () => {
   updateScrollProgress();
 
   // ---------------------------------------------------------------------------
-  // 2. Cinematic Slow White-Flash Transition & Assembly
+  // 2. Background Video Crossfade Controller (Slides 1 to 7)
+  // ---------------------------------------------------------------------------
+  const switchBackgroundVideo = (slideIndex) => {
+    bgVideos.forEach((vid, idx) => {
+      const targetIndex = idx + 1;
+      if (targetIndex === slideIndex) {
+        vid.classList.add('active-bg');
+        const playPromise = vid.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // Autoplay gracefully handled
+          });
+        }
+      } else {
+        vid.classList.remove('active-bg');
+        vid.pause();
+      }
+    });
+  };
+
+  const stopAllBackgroundVideos = () => {
+    bgVideos.forEach((vid) => {
+      vid.classList.remove('active-bg');
+      vid.pause();
+    });
+  };
+
+  // Start with first background video active
+  switchBackgroundVideo(1);
+
+  // ---------------------------------------------------------------------------
+  // 3. Cinematic Slow White-Flash Transition & Assembly
   // ---------------------------------------------------------------------------
   let fallbackTimer = null;
   let hasSnapped = false;
@@ -43,23 +75,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (hasSnapped) return;
     hasSnapped = true;
 
-    // Step 1: Smoothly fade in the white glow overlay (slow build-up)
+    // Smoothly fade in the white glow overlay
     if (whiteFlash) {
       whiteFlash.classList.add('active');
     }
 
-    // Step 2: Once white glow reaches full opacity (~600ms), perform the instant jump
+    // Instant jump to Slide 9 while screen is fully white
     setTimeout(() => {
       if (slide9) {
         slide9.scrollIntoView({ behavior: 'auto' });
       }
 
-      // Step 3: Trigger Slide 9 assembly
       if (assemblyCard) {
         assemblyCard.classList.add('assembled');
       }
 
-      // Step 4: Gracefully fade out the white glow over 800ms
+      // Gracefully fade out the white glow
       setTimeout(() => {
         if (whiteFlash) {
           whiteFlash.classList.remove('active');
@@ -69,16 +100,16 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // ---------------------------------------------------------------------------
-  // 3. Track Video Playback: Trigger Snap Flash at 0:01 (1.0s)
+  // 4. Track Slide 8 Snap Video Playback (Trigger Snap at 0:01)
   // ---------------------------------------------------------------------------
-  if (video) {
-    video.addEventListener('timeupdate', () => {
-      if (video.currentTime >= 1.0 && !hasSnapped) {
+  if (snapVideo) {
+    snapVideo.addEventListener('timeupdate', () => {
+      if (snapVideo.currentTime >= 1.0 && !hasSnapped) {
         triggerCinematicSnapTransition();
       }
     });
 
-    video.addEventListener('ended', () => {
+    snapVideo.addEventListener('ended', () => {
       if (!hasSnapped) {
         triggerCinematicSnapTransition();
       }
@@ -86,11 +117,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ---------------------------------------------------------------------------
-  // 4. IntersectionObserver for Slide Visibility & Playback Controls
+  // 5. IntersectionObserver for Slide Visibility & Background Crossfade
   // ---------------------------------------------------------------------------
   const observerOptions = {
     root: scrollContainer,
-    threshold: 0.55
+    threshold: 0.5
   };
 
   const slideObserver = new IntersectionObserver((entries) => {
@@ -98,32 +129,45 @@ document.addEventListener('DOMContentLoaded', () => {
       const target = entry.target;
       const isSlide8 = target.id === 'slide-8';
       const isSlide9 = target.id === 'slide-9';
+      const slideIndex = parseInt(target.getAttribute('data-slide-index'), 10);
 
       if (entry.isIntersecting) {
         target.classList.add('is-visible');
 
-        // Play video when Slide 8 enters view
-        if (isSlide8 && video) {
-          hasSnapped = false;
-          video.currentTime = 0;
-          const playPromise = video.play();
-          if (playPromise !== undefined) {
-            playPromise.catch(() => {
-              clearTimeout(fallbackTimer);
-              fallbackTimer = setTimeout(triggerCinematicSnapTransition, 1500);
-            });
+        // Slides 1-7: Switch background video crossfade
+        if (slideIndex >= 1 && slideIndex <= 7) {
+          switchBackgroundVideo(slideIndex);
+        }
+
+        // Slide 8: Stop background videos and play Snap Video
+        if (isSlide8) {
+          stopAllBackgroundVideos();
+          if (snapVideo) {
+            hasSnapped = false;
+            snapVideo.currentTime = 0;
+            const playPromise = snapVideo.play();
+            if (playPromise !== undefined) {
+              playPromise.catch(() => {
+                clearTimeout(fallbackTimer);
+                fallbackTimer = setTimeout(triggerCinematicSnapTransition, 1500);
+              });
+            }
           }
         }
 
-        if (isSlide9 && assemblyCard) {
-          assemblyCard.classList.add('assembled');
+        // Slide 9: Stop background videos and show assembly
+        if (isSlide9) {
+          stopAllBackgroundVideos();
+          if (assemblyCard) {
+            assemblyCard.classList.add('assembled');
+          }
         }
       } else {
         target.classList.remove('is-visible');
 
-        if (isSlide8 && video) {
-          video.pause();
-          video.currentTime = 0;
+        if (isSlide8 && snapVideo) {
+          snapVideo.pause();
+          snapVideo.currentTime = 0;
           clearTimeout(fallbackTimer);
         }
 
@@ -139,20 +183,21 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ---------------------------------------------------------------------------
-  // 5. Replay Experience (Smooth Scroll back to Slide 1)
+  // 6. Replay Experience (Smooth Scroll back to Slide 1)
   // ---------------------------------------------------------------------------
   if (replayBtn) {
     replayBtn.addEventListener('click', () => {
       hasSnapped = false;
       const firstSlide = document.getElementById('slide-1');
       if (firstSlide) {
+        switchBackgroundVideo(1);
         firstSlide.scrollIntoView({ behavior: 'smooth' });
       }
     });
   }
 
   // ---------------------------------------------------------------------------
-  // 6. Keyboard Navigation
+  // 7. Keyboard Navigation Controls
   // ---------------------------------------------------------------------------
   window.addEventListener('keydown', (e) => {
     if (['ArrowDown', 'PageDown', 'Space'].includes(e.code)) {
