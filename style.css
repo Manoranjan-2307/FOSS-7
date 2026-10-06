@@ -1,0 +1,464 @@
+/* ==========================================================================
+   THE 7-WORD SPRINT | KURAL 619 SCROLL-TELLING EXPERIENCE
+   Commit 2: Base CSS & Scroll Snapping Architecture
+   ========================================================================== */
+
+/* --- Custom Properties / Design Tokens --- */
+:root {
+  /* Core Brand Colors */
+  --bg-dark: #070913;
+  --bg-card: rgba(255, 255, 255, 0.05);
+  --border-glass: rgba(255, 255, 255, 0.12);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  /* Part-Specific Themes */
+  --theme-p1: #6366f1; /* Cosmic Indigo */
+  --theme-p2: #38bdf8; /* Storm Rain Sky */
+  --theme-p3: #f59e0b; /* Dawn Amber */
+  --theme-p4: #f97316; /* Fire Orange */
+  --theme-p5: #10b981; /* Athlete Emerald */
+  --theme-p6: #8b5cf6; /* Hidden Treasure Violet */
+  --theme-p7: #fbbf24; /* Trophy Gold */
+
+  /* Typography & Sizing */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  --font-tamil: "Mukta Malar", "Latha", "Vijaya", "Catamaran", "Noto Sans Tamil", sans-serif;
+  --nav-height: 64px;
+  --border-radius-sm: 8px;
+  --border-radius-md: 16px;
+  --border-radius-lg: 24px;
+  --border-radius-full: 9999px;
+
+  /* Elevation Shadows */
+  --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.25);
+  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+
+  /* Transitions */
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 200ms;
+  --duration-normal: 400ms;
+}
+
+/* --- Global Reset & Box Sizing --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Top Scroll Progress Bar --- */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--theme-p1), var(--theme-p4), var(--theme-p7));
+  z-index: 1000;
+  transition: width 0.1s ease-out;
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.7);
+}
+
+/* --- Word Breadcrumb Navigation --- */
+.word-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(7, 9, 19, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-glass);
+  z-index: 900;
+  padding: 0 1rem;
+}
+
+.word-nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 900px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0.25rem 0.5rem;
+}
+
+.word-nav-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.word-pill {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--border-radius-full);
+  border: 1px solid transparent;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+
+.word-pill:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.word-pill.active {
+  color: #fff;
+  background: rgba(99, 102, 241, 0.25);
+  border-color: var(--theme-p1);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+}
+
+/* --- Main Scroll-Snap Container --- */
+.scroll-container {
+  width: 100%;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  position: relative;
+}
+
+/* --- Base Section Layout --- */
+.story-section {
+  width: 100%;
+  min-height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--nav-height) + 2rem) 1.5rem 3rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-content {
+  width: 100%;
+  max-width: 720px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--border-radius-lg);
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* --- Typography & Badges --- */
+.word-counter-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius-full);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary);
+}
+
+.celebration-badge {
+  background: rgba(251, 191, 36, 0.2);
+  color: var(--theme-p7);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+}
+
+.tamil-word-display {
+  font-family: var(--font-tamil);
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+}
+
+.phonetic-guide {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-top: -0.5rem;
+}
+
+.story-visual-icon {
+  font-size: 2.5rem;
+  margin: 0.25rem 0;
+}
+
+.story-heading {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+}
+
+.story-text {
+  font-size: clamp(1rem, 2.5vw, 1.15rem);
+  color: #cbd5e1;
+  max-width: 580px;
+}
+
+.story-callout {
+  font-size: clamp(1.05rem, 2.8vw, 1.25rem);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 1rem 1.5rem;
+  border-radius: var(--border-radius-md);
+  border-left: 4px solid var(--theme-p1);
+  width: 100%;
+  max-width: 580px;
+}
+
+/* --- Part-Specific Color Accents & Gradients --- */
+
+/* Part 1: Cosmic */
+.part-1-section {
+  background: radial-gradient(circle at 50% 30%, #17153a 0%, var(--bg-dark) 75%);
+}
+.part-1-section .tamil-word-display {
+  color: #c7d2fe;
+  text-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
+}
+
+/* Part 2: Storm Rain */
+.part-2-section {
+  background: radial-gradient(circle at 50% 40%, #0c2338 0%, var(--bg-dark) 75%);
+}
+.part-2-section .tamil-word-display {
+  color: #bae6fd;
+  text-shadow: 0 0 30px rgba(56, 189, 248, 0.6);
+}
+.part-2-section .story-callout {
+  border-left-color: var(--theme-p2);
+}
+
+/* Part 3: The Pivot */
+.part-3-section {
+  background: radial-gradient(circle at 50% 35%, #2a1f11 0%, var(--bg-dark) 75%);
+}
+.part-3-section .tamil-word-display {
+  color: #fde68a;
+  text-shadow: 0 0 30px rgba(245, 158, 11, 0.6);
+}
+.part-3-section .story-callout {
+  border-left-color: var(--theme-p3);
+}
+
+/* Part 4: Fire Within */
+.part-4-section {
+  background: radial-gradient(circle at 50% 40%, #2f1309 0%, var(--bg-dark) 75%);
+}
+.part-4-section .tamil-word-display {
+  color: #fed7aa;
+  text-shadow: 0 0 30px rgba(249, 115, 22, 0.6);
+}
+.part-4-section .story-callout {
+  border-left-color: var(--theme-p4);
+}
+
+/* Part 5: Level Up & Stats Grid */
+.part-5-section {
+  background: radial-gradient(circle at 50% 35%, #0d291e 0%, var(--bg-dark) 75%);
+}
+.part-5-section .tamil-word-display {
+  color: #a7f3d0;
+  text-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
+}
+
+.stat-deck {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 580px;
+  margin-top: 0.5rem;
+}
+
+.stat-pill {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: var(--border-radius-md);
+  padding: 0.85rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.pill-icon {
+  font-size: 1.5rem;
+}
+
+.pill-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.pill-val {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #34d399;
+}
+
+/* Part 6: The Reward */
+.part-6-section {
+  background: radial-gradient(circle at 50% 35%, #231238 0%, var(--bg-dark) 75%);
+}
+.part-6-section .tamil-word-display {
+  color: #ddd6fe;
+  text-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+}
+.part-6-section .story-callout {
+  border-left-color: var(--theme-p6);
+}
+
+/* Part 7: The Grand Payoff */
+.part-7-section {
+  background: radial-gradient(circle at 50% 30%, #352605 0%, var(--bg-dark) 80%);
+}
+.part-7-section .tamil-word-display {
+  color: #fef08a;
+  text-shadow: 0 0 35px rgba(251, 191, 36, 0.8);
+}
+
+.kural-grand-box {
+  background: rgba(251, 191, 36, 0.07);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: var(--border-radius-md);
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: 0 0 25px rgba(251, 191, 36, 0.15);
+}
+
+.kural-header-tag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--theme-p7);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.kural-complete-text {
+  font-family: var(--font-tamil);
+  font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.5;
+}
+
+.kural-kid-meaning {
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  color: #fef08a;
+  line-height: 1.5;
+}
+
+/* --- Buttons & Interactive Elements --- */
+.action-btn,
+.replay-btn {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #000;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.85rem 1.75rem;
+  border-radius: var(--border-radius-full);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
+  transition: transform var(--duration-fast) var(--ease-smooth), box-shadow var(--duration-fast) var(--ease-smooth);
+}
+
+.action-btn:hover,
+.replay-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 6px 25px rgba(245, 158, 11, 0.6);
+}
+
+.action-btn:active,
+.replay-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* --- Scroll Prompt Indicator --- */
+.scroll-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.mouse-wheel {
+  width: 22px;
+  height: 34px;
+  border: 2px solid var(--text-muted);
+  border-radius: 12px;
+  position: relative;
+}
+
+.mouse-wheel::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 6px;
+  background: var(--text-muted);
+  border-radius: 2px;
+}
+
+/* --- Responsive Adaptations --- */
+@media (max-width: 640px) {
+  .section-content {
+    padding: 1.75rem 1.25rem;
+    gap: 1rem;
+  }
+  .stat-deck {
+    grid-template-columns: 1fr;
+  }
+  .stat-pill {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.6rem 1rem;
+  }
+  .word-nav {
+    justify-content: flex-start;
+  }
+}
