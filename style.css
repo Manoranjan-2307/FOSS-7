@@ -87,6 +87,7 @@ html, body {
   height: 100%;
   object-fit: cover;
   opacity: 0;
+  filter: brightness(1.22) contrast(1.08) saturate(1.12);
   transition: opacity 0.8s ease-in-out;
   will-change: opacity;
 }
@@ -95,13 +96,11 @@ html, body {
   opacity: 1;
 }
 
-/* Dark Contrast Overlay for Razor-Sharp Text Readability */
+/* Bright, Subtle Contrast Overlay to Keep Background Vibrant & Text Readable */
 .cinematic-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(7, 9, 19, 0.55) 0%, rgba(7, 9, 19, 0.82) 100%);
-  backdrop-filter: blur(1.5px);
-  -webkit-backdrop-filter: blur(1.5px);
+  background: radial-gradient(circle at center, rgba(7, 9, 19, 0.15) 0%, rgba(7, 9, 19, 0.45) 100%);
   pointer-events: none;
 }
 
@@ -168,13 +167,13 @@ html, body {
 .slide-content.transparent-card {
   width: 100%;
   max-width: 760px;
-  background: rgba(7, 9, 19, 0.55);
-  border: 1px solid var(--border-glass);
+  background: rgba(7, 9, 19, 0.40);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-lg);
   padding: 3.25rem 2.5rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   text-align: center;
   display: flex;
   flex-direction: column;
