@@ -1,6 +1,6 @@
 /**
  * The 7-Word Sprint | Kural 619
- * Commit 3: IntersectionObserver Scroll Engine & Slide 1-7 Word Animation Triggers
+ * Commit 4: Video Trigger Engine (Slide 8 Playback Controls)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const progressBar = document.getElementById('progressBar');
   const slides = document.querySelectorAll('.slide-section');
   const replayBtn = document.getElementById('replayBtn');
+  const video = document.getElementById('ironManVideo');
 
   if (!scrollContainer || !slides.length) return;
 
@@ -30,20 +31,39 @@ document.addEventListener('DOMContentLoaded', () => {
   updateScrollProgress();
 
   // ---------------------------------------------------------------------------
-  // 2. IntersectionObserver for Slide 1-7 Word Reveals
+  // 2. IntersectionObserver for Slide Reveals & Slide 8 Video Trigger
   // ---------------------------------------------------------------------------
   const observerOptions = {
     root: scrollContainer,
-    threshold: 0.55 // Triggers when slide is more than half in view
+    threshold: 0.55
   };
 
   const slideObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
+      const target = entry.target;
+      const isSlide8 = target.id === 'slide-8';
+
       if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
+        target.classList.add('is-visible');
+
+        // Play video ONLY when Slide 8 enters view
+        if (isSlide8 && video) {
+          video.currentTime = 0;
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.catch((err) => {
+              console.warn('Video auto-playback deferred:', err);
+            });
+          }
+        }
       } else {
-        // Reset when scrolling away to enable continuous replayability
-        entry.target.classList.remove('is-visible');
+        target.classList.remove('is-visible');
+
+        // Pause and reset video when leaving Slide 8
+        if (isSlide8 && video) {
+          video.pause();
+          video.currentTime = 0;
+        }
       }
     });
   }, observerOptions);

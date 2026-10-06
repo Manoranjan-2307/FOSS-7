@@ -96,8 +96,20 @@
     <section class="slide-section slide-8-finale" id="slide-8" aria-label="Slide 8: The Reverse-Snap Finale">
       <div class="finale-stage" id="finaleStage">
         
-        <!-- Video Placeholder Container (Configured in Commit 4) -->
-        <div class="video-container" id="videoContainer"></div>
+        <!-- Center Cinematic Video Stage -->
+        <div class="video-container" id="videoContainer">
+          <video 
+            id="ironManVideo"
+            class="iron-man-video"
+            playsinline 
+            muted 
+            preload="auto">
+            <source src="snap.mp4" type="video/mp4">
+            <!-- Fallback Canvas / Graphic for testing if local video asset is pending -->
+            Your browser does not support the video tag.
+          </video>
+          <div class="video-overlay-glow"></div>
+        </div>
 
         <!-- The 7 Scattered Magnetic Words -->
         <div class="snap-words-assembly" id="snapWordsAssembly" lang="ta">
