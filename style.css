@@ -1,11 +1,11 @@
 /* ==========================================================================
-   THE 7-WORD SPRINT | KURAL 619 SCROLL-TELLING EXPERIENCE
-   Commit 2: Base CSS & Scroll Snapping Architecture
+   THE 7-WORD SPRINT | KURAL 619
+   Commit 2: Base Styling, Typography & Full-Page Scroll-Snap Architecture
    ========================================================================== */
 
 /* --- Custom Properties / Design Tokens --- */
 :root {
-  /* Core Brand Colors */
+  /* Core Palette */
   --bg-dark: #070913;
   --bg-card: rgba(255, 255, 255, 0.05);
   --border-glass: rgba(255, 255, 255, 0.12);
@@ -13,32 +13,26 @@
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
 
-  /* Part-Specific Themes */
-  --theme-p1: #6366f1; /* Cosmic Indigo */
-  --theme-p2: #38bdf8; /* Storm Rain Sky */
-  --theme-p3: #f59e0b; /* Dawn Amber */
-  --theme-p4: #f97316; /* Fire Orange */
-  --theme-p5: #10b981; /* Athlete Emerald */
-  --theme-p6: #8b5cf6; /* Hidden Treasure Violet */
-  --theme-p7: #fbbf24; /* Trophy Gold */
+  /* Section Theme Accents */
+  --accent-hook: #818cf8;       /* Indigo */
+  --accent-fate: #38bdf8;       /* Storm Cyan */
+  --accent-effort: #34d399;     /* Energetic Emerald */
+  --accent-payoff: #fbbf24;     /* Celebratory Gold */
+  --accent-finale: #f43f5e;     /* Arc Reactor Crimson/Rose */
 
-  /* Typography & Sizing */
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  --font-tamil: "Mukta Malar", "Latha", "Vijaya", "Catamaran", "Noto Sans Tamil", sans-serif;
-  --nav-height: 64px;
-  --border-radius-sm: 8px;
-  --border-radius-md: 16px;
-  --border-radius-lg: 24px;
-  --border-radius-full: 9999px;
+  /* Typography */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-tamil: "Mukta Malar", "Latha", "Catamaran", "Vijaya", "Noto Sans Tamil", sans-serif;
 
-  /* Elevation Shadows */
-  --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.25);
-  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  /* Sizing & Radii */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
 
-  /* Transitions */
-  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
-  --duration-fast: 200ms;
-  --duration-normal: 400ms;
+  /* Shadows */
+  --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+  --shadow-glow-gold: 0 0 35px rgba(251, 191, 36, 0.3);
 }
 
 /* --- Global Reset & Box Sizing --- */
@@ -60,78 +54,20 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- Top Scroll Progress Bar --- */
-.scroll-progress-bar {
+/* --- Scroll Progress Bar --- */
+.progress-bar {
   position: fixed;
   top: 0;
   left: 0;
   width: 0%;
   height: 4px;
-  background: linear-gradient(90deg, var(--theme-p1), var(--theme-p4), var(--theme-p7));
+  background: linear-gradient(90deg, var(--accent-hook), var(--accent-effort), var(--accent-payoff));
   z-index: 1000;
-  transition: width 0.1s ease-out;
-  box-shadow: 0 0 10px rgba(251, 191, 36, 0.7);
+  transition: width 0.15s ease-out;
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.8);
 }
 
-/* --- Word Breadcrumb Navigation --- */
-.word-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: var(--nav-height);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(7, 9, 19, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-glass);
-  z-index: 900;
-  padding: 0 1rem;
-}
-
-.word-nav-inner {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  max-width: 900px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  padding: 0.25rem 0.5rem;
-}
-
-.word-nav-inner::-webkit-scrollbar {
-  display: none;
-}
-
-.word-pill {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  background: rgba(255, 255, 255, 0.04);
-  padding: 0.35rem 0.75rem;
-  border-radius: var(--border-radius-full);
-  border: 1px solid transparent;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-smooth);
-}
-
-.word-pill:hover {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.word-pill.active {
-  color: #fff;
-  background: rgba(99, 102, 241, 0.25);
-  border-color: var(--theme-p1);
-  box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
-}
-
-/* --- Main Scroll-Snap Container --- */
+/* --- Full-Page Scroll-Snap Container --- */
 .scroll-container {
   width: 100%;
   height: 100vh;
@@ -141,8 +77,8 @@ html, body {
   position: relative;
 }
 
-/* --- Base Section Layout --- */
-.story-section {
+/* --- Screen Section Base Layout --- */
+.screen-section {
   width: 100%;
   min-height: 100vh;
   scroll-snap-align: start;
@@ -150,18 +86,19 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: calc(var(--nav-height) + 2rem) 1.5rem 3rem 1.5rem;
+  padding: 3rem 1.5rem;
   position: relative;
   overflow: hidden;
 }
 
-.section-content {
+/* --- Content Wrapper & Card Glassmorphism --- */
+.content-wrapper {
   width: 100%;
-  max-width: 720px;
+  max-width: 680px;
   background: var(--bg-card);
   border: 1px solid var(--border-glass);
-  border-radius: var(--border-radius-lg);
-  padding: 2.5rem 2rem;
+  border-radius: var(--radius-lg);
+  padding: 2.75rem 2.25rem;
   box-shadow: var(--shadow-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -175,256 +112,215 @@ html, body {
 }
 
 /* --- Typography & Badges --- */
-.word-counter-badge {
+.badge {
   display: inline-block;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-weight: 700;
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--border-radius-full);
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-full);
   background: rgba(255, 255, 255, 0.08);
   color: var(--text-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.celebration-badge {
-  background: rgba(251, 191, 36, 0.2);
-  color: var(--theme-p7);
-  border: 1px solid rgba(251, 191, 36, 0.4);
+.badge-gold {
+  background: rgba(251, 191, 36, 0.15);
+  color: var(--accent-payoff);
+  border-color: rgba(251, 191, 36, 0.4);
 }
 
-.tamil-word-display {
+.badge-assembly {
+  background: rgba(244, 63, 94, 0.15);
+  color: #fda4af;
+  border-color: rgba(244, 63, 94, 0.4);
+}
+
+.icon-hero {
+  font-size: 2.75rem;
+  line-height: 1;
+}
+
+.hero-title {
   font-family: var(--font-tamil);
-  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-size: clamp(2rem, 5.5vw, 3.2rem);
   font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  line-height: 1.2;
   color: #ffffff;
-  text-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+  text-shadow: 0 0 30px rgba(129, 140, 248, 0.5);
 }
 
-.phonetic-guide {
-  font-size: 0.95rem;
-  font-style: italic;
-  color: var(--text-secondary);
-  margin-top: -0.5rem;
+.section-heading {
+  font-size: clamp(1.6rem, 4vw, 2.25rem);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.25;
 }
 
-.story-visual-icon {
-  font-size: 2.5rem;
-  margin: 0.25rem 0;
-}
-
-.story-heading {
-  font-size: clamp(1.4rem, 4vw, 2rem);
-  font-weight: 700;
-  color: #fff;
-  line-height: 1.3;
-}
-
-.story-text {
-  font-size: clamp(1rem, 2.5vw, 1.15rem);
+.tagline, .narrative-text {
+  font-size: clamp(1.05rem, 2.5vw, 1.2rem);
   color: #cbd5e1;
-  max-width: 580px;
+  max-width: 560px;
 }
 
-.story-callout {
-  font-size: clamp(1.05rem, 2.8vw, 1.25rem);
+.sub-text {
+  font-size: clamp(0.95rem, 2.2vw, 1.05rem);
+  color: var(--text-muted);
+}
+
+.callout-text {
+  font-size: clamp(1.05rem, 2.5vw, 1.2rem);
   color: #ffffff;
   background: rgba(255, 255, 255, 0.04);
   padding: 1rem 1.5rem;
-  border-radius: var(--border-radius-md);
-  border-left: 4px solid var(--theme-p1);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--accent-fate);
   width: 100%;
-  max-width: 580px;
 }
 
-/* --- Part-Specific Color Accents & Gradients --- */
-
-/* Part 1: Cosmic */
-.part-1-section {
-  background: radial-gradient(circle at 50% 30%, #17153a 0%, var(--bg-dark) 75%);
-}
-.part-1-section .tamil-word-display {
-  color: #c7d2fe;
-  text-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
+.payoff-quote {
+  font-size: clamp(1.2rem, 3.2vw, 1.5rem);
+  font-weight: 700;
+  color: var(--accent-payoff);
+  line-height: 1.4;
+  padding: 0.5rem 0;
 }
 
-/* Part 2: Storm Rain */
-.part-2-section {
-  background: radial-gradient(circle at 50% 40%, #0c2338 0%, var(--bg-dark) 75%);
-}
-.part-2-section .tamil-word-display {
-  color: #bae6fd;
-  text-shadow: 0 0 30px rgba(56, 189, 248, 0.6);
-}
-.part-2-section .story-callout {
-  border-left-color: var(--theme-p2);
-}
-
-/* Part 3: The Pivot */
-.part-3-section {
-  background: radial-gradient(circle at 50% 35%, #2a1f11 0%, var(--bg-dark) 75%);
-}
-.part-3-section .tamil-word-display {
-  color: #fde68a;
-  text-shadow: 0 0 30px rgba(245, 158, 11, 0.6);
-}
-.part-3-section .story-callout {
-  border-left-color: var(--theme-p3);
-}
-
-/* Part 4: Fire Within */
-.part-4-section {
-  background: radial-gradient(circle at 50% 40%, #2f1309 0%, var(--bg-dark) 75%);
-}
-.part-4-section .tamil-word-display {
-  color: #fed7aa;
-  text-shadow: 0 0 30px rgba(249, 115, 22, 0.6);
-}
-.part-4-section .story-callout {
-  border-left-color: var(--theme-p4);
-}
-
-/* Part 5: Level Up & Stats Grid */
-.part-5-section {
-  background: radial-gradient(circle at 50% 35%, #0d291e 0%, var(--bg-dark) 75%);
-}
-.part-5-section .tamil-word-display {
-  color: #a7f3d0;
-  text-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
-}
-
-.stat-deck {
+/* --- Power-Up Stats Grid (Section 3) --- */
+.powerup-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
   width: 100%;
-  max-width: 580px;
-  margin-top: 0.5rem;
 }
 
-.stat-pill {
-  background: rgba(16, 185, 129, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  border-radius: var(--border-radius-md);
-  padding: 0.85rem 0.5rem;
+.powerup-card {
+  background: rgba(52, 211, 153, 0.08);
+  border: 1px solid rgba(52, 211, 153, 0.25);
+  border-radius: var(--radius-md);
+  padding: 1rem 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.35rem;
 }
 
-.pill-icon {
+.card-icon {
   font-size: 1.5rem;
 }
 
-.pill-label {
-  font-size: 0.75rem;
+.card-title {
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--text-secondary);
 }
 
-.pill-val {
+.card-detail {
   font-size: 0.95rem;
   font-weight: 800;
-  color: #34d399;
+  color: var(--accent-effort);
 }
 
-/* Part 6: The Reward */
-.part-6-section {
-  background: radial-gradient(circle at 50% 35%, #231238 0%, var(--bg-dark) 75%);
-}
-.part-6-section .tamil-word-display {
-  color: #ddd6fe;
-  text-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
-}
-.part-6-section .story-callout {
-  border-left-color: var(--theme-p6);
+/* --- Section Themes / Backgrounds --- */
+.section-hook {
+  background: radial-gradient(circle at 50% 30%, #151638 0%, var(--bg-dark) 75%);
 }
 
-/* Part 7: The Grand Payoff */
-.part-7-section {
-  background: radial-gradient(circle at 50% 30%, #352605 0%, var(--bg-dark) 80%);
-}
-.part-7-section .tamil-word-display {
-  color: #fef08a;
-  text-shadow: 0 0 35px rgba(251, 191, 36, 0.8);
+.section-fate {
+  background: radial-gradient(circle at 50% 35%, #0b2238 0%, var(--bg-dark) 75%);
 }
 
-.kural-grand-box {
-  background: rgba(251, 191, 36, 0.07);
-  border: 1px solid rgba(251, 191, 36, 0.3);
-  border-radius: var(--border-radius-md);
-  padding: 1.5rem;
+.section-effort {
+  background: radial-gradient(circle at 50% 35%, #0a2e20 0%, var(--bg-dark) 75%);
+}
+
+.section-payoff {
+  background: radial-gradient(circle at 50% 30%, #302305 0%, var(--bg-dark) 80%);
+}
+
+.section-finale {
+  background: radial-gradient(circle at 50% 40%, #2b0b14 0%, var(--bg-dark) 85%);
+}
+
+/* --- Section 5: Assembly Stage Layout Base --- */
+.assembly-stage {
   width: 100%;
-  max-width: 600px;
+  max-width: 900px;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  box-shadow: 0 0 25px rgba(251, 191, 36, 0.15);
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 2;
+  padding: 2rem 1rem;
 }
 
-.kural-header-tag {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--theme-p7);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+.assembly-subheading {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
 }
 
-.kural-complete-text {
+.words-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+.snap-line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+}
+
+.snap-word {
   font-family: var(--font-tamil);
-  font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+  font-size: clamp(2rem, 5.5vw, 3.5rem);
   font-weight: 800;
+  line-height: 1.2;
   color: #fff;
-  line-height: 1.5;
+  display: inline-block;
+  cursor: default;
 }
 
-.kural-kid-meaning {
-  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-  color: #fef08a;
+.assembly-translation {
+  font-size: clamp(1rem, 2.4vw, 1.15rem);
+  color: #fed7aa;
+  max-width: 640px;
   line-height: 1.5;
+  font-style: italic;
 }
 
-/* --- Buttons & Interactive Elements --- */
-.action-btn,
+/* --- Replay Button & Hints --- */
 .replay-btn {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: #000;
-  font-size: 1rem;
+  background: linear-gradient(135deg, #f43f5e, #e11d48);
+  color: #fff;
+  font-size: 1.05rem;
   font-weight: 700;
-  padding: 0.85rem 1.75rem;
-  border-radius: var(--border-radius-full);
+  padding: 0.9rem 2rem;
+  border-radius: var(--radius-full);
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
-  transition: transform var(--duration-fast) var(--ease-smooth), box-shadow var(--duration-fast) var(--ease-smooth);
+  box-shadow: 0 6px 20px rgba(244, 63, 94, 0.4);
 }
 
-.action-btn:hover,
-.replay-btn:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 6px 25px rgba(245, 158, 11, 0.6);
-}
-
-.action-btn:active,
-.replay-btn:active {
-  transform: translateY(0) scale(0.98);
-}
-
-/* --- Scroll Prompt Indicator --- */
-.scroll-prompt {
+.scroll-hint {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 1rem;
   color: var(--text-muted);
   font-size: 0.85rem;
+  margin-top: 1rem;
 }
 
-.mouse-wheel {
+.mouse-icon {
   width: 22px;
   height: 34px;
   border: 2px solid var(--text-muted);
@@ -432,7 +328,7 @@ html, body {
   position: relative;
 }
 
-.mouse-wheel::after {
+.mouse-icon::after {
   content: '';
   position: absolute;
   top: 6px;
@@ -444,21 +340,17 @@ html, body {
   border-radius: 2px;
 }
 
-/* --- Responsive Adaptations --- */
+/* --- Responsive Adjustments --- */
 @media (max-width: 640px) {
-  .section-content {
-    padding: 1.75rem 1.25rem;
-    gap: 1rem;
+  .content-wrapper {
+    padding: 2rem 1.25rem;
   }
-  .stat-deck {
+  .powerup-grid {
     grid-template-columns: 1fr;
   }
-  .stat-pill {
+  .powerup-card {
     flex-direction: row;
     justify-content: space-between;
-    padding: 0.6rem 1rem;
-  }
-  .word-nav {
-    justify-content: flex-start;
+    padding: 0.75rem 1.25rem;
   }
 }
