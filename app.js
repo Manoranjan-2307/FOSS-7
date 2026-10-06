@@ -1,6 +1,6 @@
 /**
  * The 7-Word Sprint | Kural 619
- * Commit 5: Slide 8 Video Snap Playback & Slide 9 Reverse-Snap Assembly Engine
+ * Grand Finale Engine: Slide 8 Video, White-Flash Seamless Jump & Slide 9 Assembly
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,11 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const video = document.getElementById('ironManVideo');
   const slide9 = document.getElementById('slide-9');
   const assemblyCard = document.getElementById('assemblyCard');
+  const whiteFlash = document.getElementById('whiteFlashOverlay');
 
   if (!scrollContainer || !slides.length) return;
 
   // ---------------------------------------------------------------------------
-  // 1. Dynamic Scroll Progress Bar
+  // 1. Scroll Progress Bar
   // ---------------------------------------------------------------------------
   const updateScrollProgress = () => {
     const scrollTop = scrollContainer.scrollTop;
@@ -33,25 +34,49 @@ document.addEventListener('DOMContentLoaded', () => {
   updateScrollProgress();
 
   // ---------------------------------------------------------------------------
-  // 2. Slide 8 Video Tracking & Auto-Transition to Slide 9
+  // 2. Seamless White-Flash Jump & Assembly Execution
   // ---------------------------------------------------------------------------
-  let autoScrollTimeout = null;
+  let fallbackTimer = null;
+  let hasSnapped = false;
 
-  const navigateToSlide9 = () => {
-    if (slide9) {
-      slide9.scrollIntoView({ behavior: 'smooth' });
+  const triggerSeamlessSnapTransition = () => {
+    if (hasSnapped) return;
+    hasSnapped = true;
+
+    // Step 1: Trigger full white screen flash
+    if (whiteFlash) {
+      whiteFlash.classList.add('active');
     }
+
+    // Step 2: Instant jump to Slide 9 while screen is fully white
+    setTimeout(() => {
+      if (slide9) {
+        slide9.scrollIntoView({ behavior: 'auto' }); // Instant unnoticed jump
+      }
+
+      // Step 3: Trigger Slide 9 magnetic reverse-snap assembly
+      if (assemblyCard) {
+        assemblyCard.classList.add('assembled');
+      }
+
+      // Step 4: Fade white flash back to transparent
+      setTimeout(() => {
+        if (whiteFlash) {
+          whiteFlash.classList.remove('active');
+        }
+      }, 80);
+    }, 120);
   };
 
   if (video) {
-    // Exact moment the Iron Man Snap video completes
+    // Listen for video completion / snap event
     video.addEventListener('ended', () => {
-      navigateToSlide9();
+      triggerSeamlessSnapTransition();
     });
   }
 
   // ---------------------------------------------------------------------------
-  // 3. IntersectionObserver Lifecycle Engine
+  // 3. IntersectionObserver for Slide Visibility & Playback
   // ---------------------------------------------------------------------------
   const observerOptions = {
     root: scrollContainer,
@@ -69,20 +94,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Play video ONLY when Slide 8 enters view
         if (isSlide8 && video) {
+          hasSnapped = false;
           video.currentTime = 0;
           const playPromise = video.play();
           if (playPromise !== undefined) {
             playPromise.catch(() => {
-              // Graceful fallback if video playback is blocked or file is missing
-              clearTimeout(autoScrollTimeout);
-              autoScrollTimeout = setTimeout(navigateToSlide9, 3500);
+              // Fallback transition if autoplay is deferred or file is loading
+              clearTimeout(fallbackTimer);
+              fallbackTimer = setTimeout(triggerSeamlessSnapTransition, 3500);
             });
           }
         }
 
-        // Slide 9: Trigger .show class for the reverse-snap assembly
+        // Direct scroll to Slide 9 manual fallback trigger
         if (isSlide9 && assemblyCard) {
-          assemblyCard.classList.add('show');
+          assemblyCard.classList.add('assembled');
         }
       } else {
         target.classList.remove('is-visible');
@@ -91,12 +117,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isSlide8 && video) {
           video.pause();
           video.currentTime = 0;
-          clearTimeout(autoScrollTimeout);
+          clearTimeout(fallbackTimer);
         }
 
-        // Reset Slide 9 assembly on exit to enable replayability
+        // Reset Slide 9 assembly on exit for replayability
         if (isSlide9 && assemblyCard) {
-          assemblyCard.classList.remove('show');
+          assemblyCard.classList.remove('assembled');
         }
       }
     });
@@ -107,10 +133,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ---------------------------------------------------------------------------
-  // 4. Replay Experience (Smooth Scroll to Slide 1)
+  // 4. Replay Experience (Smooth Scroll back to Slide 1)
   // ---------------------------------------------------------------------------
   if (replayBtn) {
     replayBtn.addEventListener('click', () => {
+      hasSnapped = false;
       const firstSlide = document.getElementById('slide-1');
       if (firstSlide) {
         firstSlide.scrollIntoView({ behavior: 'smooth' });

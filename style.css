@@ -1,6 +1,6 @@
 /* ==========================================================================
    THE 7-WORD SPRINT | KURAL 619
-   Commit 5: Slide 9 Cinematic Reverse-Snap Assembly Engine & Heavy Physics
+   Grand Finale: Slide 8 & Slide 9 Reverse-Snap Assembly Integration
    ========================================================================== */
 
 /* --- Custom Properties / Design Tokens --- */
@@ -35,7 +35,7 @@
   --radius-full: 9999px;
   --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
 
-  /* Framer-Motion Grade Physics Curves */
+  /* Framer-Motion Physics Curves */
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-magnetic-snap: cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -44,7 +44,7 @@
   --duration-normal: 450ms;
 }
 
-/* --- Global Reset & Box Sizing --- */
+/* --- Global Reset & Foundation --- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -61,6 +61,25 @@ html, body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   1. GLOBAL WHITE FLASH OVERLAY (For Invisible Instant Jump)
+   ========================================================================== */
+.white-flash-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #ffffff;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.12s ease-out;
+}
+
+.white-flash-overlay.active {
+  opacity: 1;
 }
 
 /* --- Top Scroll Progress Bar --- */
@@ -122,9 +141,8 @@ html, body {
 }
 
 /* ==========================================================================
-   SLIDES 1–7 SINGLE WORD ANIMATIONS (Fade & Slide Up)
+   SLIDES 1–7 SINGLE WORD ANIMATION ENGINE (Fade-in, Scale & Slide Up)
    ========================================================================== */
-
 .slide-section:not(#slide-8):not(#slide-9) .slide-content > * {
   opacity: 0;
   transform: translateY(32px) scale(0.94);
@@ -210,105 +228,77 @@ html, body {
   color: #ffffff;
 }
 
-/* --- 9 Atmospheric Mood Backgrounds --- */
-
-.slide-1 {
-  background: radial-gradient(circle at 50% 30%, #15163c 0%, var(--bg-dark) 80%);
-}
-.slide-1 .single-tamil-word {
-  color: #c7d2fe;
-  text-shadow: 0 0 35px rgba(99, 102, 241, 0.7);
-}
+/* --- Atmospheric Gradients (Slides 1–7) --- */
+.slide-1 { background: radial-gradient(circle at 50% 30%, #15163c 0%, var(--bg-dark) 80%); }
+.slide-1 .single-tamil-word { color: #c7d2fe; text-shadow: 0 0 35px rgba(99, 102, 241, 0.7); }
 .slide-1 .kid-hint { border-left-color: var(--theme-s1); }
 
-.slide-2 {
-  background: radial-gradient(circle at 50% 35%, #082238 0%, var(--bg-dark) 80%);
-}
-.slide-2 .single-tamil-word {
-  color: #bae6fd;
-  text-shadow: 0 0 35px rgba(56, 189, 248, 0.7);
-}
+.slide-2 { background: radial-gradient(circle at 50% 35%, #082238 0%, var(--bg-dark) 80%); }
+.slide-2 .single-tamil-word { color: #bae6fd; text-shadow: 0 0 35px rgba(56, 189, 248, 0.7); }
 .slide-2 .kid-hint { border-left-color: var(--theme-s2); }
 
-.slide-3 {
-  background: radial-gradient(circle at 50% 35%, #2b1f0c 0%, var(--bg-dark) 80%);
-}
-.slide-3 .single-tamil-word {
-  color: #fde68a;
-  text-shadow: 0 0 35px rgba(245, 158, 11, 0.7);
-}
+.slide-3 { background: radial-gradient(circle at 50% 35%, #2b1f0c 0%, var(--bg-dark) 80%); }
+.slide-3 .single-tamil-word { color: #fde68a; text-shadow: 0 0 35px rgba(245, 158, 11, 0.7); }
 .slide-3 .kid-hint { border-left-color: var(--theme-s3); }
 
-.slide-4 {
-  background: radial-gradient(circle at 50% 40%, #351307 0%, var(--bg-dark) 80%);
-}
-.slide-4 .single-tamil-word {
-  color: #fed7aa;
-  text-shadow: 0 0 35px rgba(249, 115, 22, 0.7);
-}
+.slide-4 { background: radial-gradient(circle at 50% 40%, #351307 0%, var(--bg-dark) 80%); }
+.slide-4 .single-tamil-word { color: #fed7aa; text-shadow: 0 0 35px rgba(249, 115, 22, 0.7); }
 .slide-4 .kid-hint { border-left-color: var(--theme-s4); }
 
-.slide-5 {
-  background: radial-gradient(circle at 50% 35%, #092c1e 0%, var(--bg-dark) 80%);
-}
-.slide-5 .single-tamil-word {
-  color: #a7f3d0;
-  text-shadow: 0 0 35px rgba(16, 185, 129, 0.7);
-}
+.slide-5 { background: radial-gradient(circle at 50% 35%, #092c1e 0%, var(--bg-dark) 80%); }
+.slide-5 .single-tamil-word { color: #a7f3d0; text-shadow: 0 0 35px rgba(16, 185, 129, 0.7); }
 .slide-5 .kid-hint { border-left-color: var(--theme-s5); }
 
-.slide-6 {
-  background: radial-gradient(circle at 50% 35%, #241142 0%, var(--bg-dark) 80%);
-}
-.slide-6 .single-tamil-word {
-  color: #ddd6fe;
-  text-shadow: 0 0 35px rgba(139, 92, 246, 0.7);
-}
+.slide-6 { background: radial-gradient(circle at 50% 35%, #241142 0%, var(--bg-dark) 80%); }
+.slide-6 .single-tamil-word { color: #ddd6fe; text-shadow: 0 0 35px rgba(139, 92, 246, 0.7); }
 .slide-6 .kid-hint { border-left-color: var(--theme-s6); }
 
-.slide-7 {
-  background: radial-gradient(circle at 50% 30%, #362804 0%, var(--bg-dark) 80%);
-}
-.slide-7 .single-tamil-word {
-  color: #fef08a;
-  text-shadow: 0 0 40px rgba(234, 179, 8, 0.8);
-}
+.slide-7 { background: radial-gradient(circle at 50% 30%, #362804 0%, var(--bg-dark) 80%); }
+.slide-7 .single-tamil-word { color: #fef08a; text-shadow: 0 0 40px rgba(234, 179, 8, 0.8); }
 .slide-7 .kid-hint { border-left-color: var(--theme-s7); }
 
-/* --- Slide 8: Full-Screen Video Stage --- */
+/* ==========================================================================
+   2. SLIDE 8: THE VIDEO CONTAINER
+   ========================================================================== */
 .slide-8-video {
   background: #000000;
-  padding: 0;
+  padding: 2rem 1.5rem;
 }
 
-.video-stage {
-  width: 100vw;
-  height: 100vh;
+.video-wrapper {
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 16 / 9;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000;
+  background: #050505;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(244, 63, 94, 0.35);
+  box-shadow: 0 0 40px rgba(244, 63, 94, 0.35), 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+  transition: transform 0.6s var(--ease-smooth), box-shadow 0.6s var(--ease-smooth);
 }
 
-.snap-fullscreen-video {
+.snap-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: var(--radius-lg);
 }
 
-.video-snap-overlay {
+.video-ambient-glow {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.5) 100%);
+  background: radial-gradient(circle at center, transparent 40%, rgba(244, 63, 94, 0.2) 100%);
 }
 
 /* ==========================================================================
-   SLIDE 9: REVERSE-SNAP MAGNETIC ASSEMBLY ENGINE
+   3. SLIDE 9: THE REVERSE-SNAP ASSEMBLY FINALE
    ========================================================================== */
-
 .slide-9-assembly {
   background: radial-gradient(circle at 50% 35%, #3c2704 0%, var(--bg-dark) 85%);
   perspective: 1000px;
@@ -348,28 +338,22 @@ html, body {
   box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
 }
 
-.assembly-words-grid {
+/* Sentence Container */
+.kural-sentence-wrap {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
   width: 100%;
   margin: 1.25rem 0;
   position: relative;
 }
 
-.kural-line {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.75rem 1.5rem;
-}
-
-/* Base Scattered Word State: Heavily Blurred, Rotated, Scaled & Thrown Off-Screen */
-.kural-word {
+/* Initial Scattered Word State: Heavily Blurred, Rotated, Scaled & Thrown Off-Screen */
+.snap-word {
   font-family: var(--font-tamil);
-  font-size: clamp(2.25rem, 6.5vw, 4rem);
+  font-size: clamp(2rem, 5vw, 3.4rem);
   font-weight: 800;
   line-height: 1.15;
   color: #ffffff;
@@ -384,31 +368,31 @@ html, body {
               text-shadow 0.5s var(--ease-smooth);
 }
 
-/* 3D Scattered Coordinates for each Word */
-#assemblyCard:not(.show) .word-1 {
+/* Off-Center 3D Coordinates before .assembled */
+.assembly-card:not(.assembled) .word-1 {
   transform: translate3d(-360px, -220px, 80px) rotate(-32deg) scale(2.2);
 }
-#assemblyCard:not(.show) .word-2 {
+.assembly-card:not(.assembled) .word-2 {
   transform: translate3d(320px, -280px, 60px) rotate(26deg) scale(2.0);
 }
-#assemblyCard:not(.show) .word-3 {
+.assembly-card:not(.assembled) .word-3 {
   transform: translate3d(-400px, 140px, 100px) rotate(-38deg) scale(2.3);
 }
-#assemblyCard:not(.show) .word-4 {
+.assembly-card:not(.assembled) .word-4 {
   transform: translate3d(380px, -100px, 50px) rotate(20deg) scale(2.1);
 }
-#assemblyCard:not(.show) .word-5 {
+.assembly-card:not(.assembled) .word-5 {
   transform: translate3d(-280px, 300px, 90px) rotate(35deg) scale(2.4);
 }
-#assemblyCard:not(.show) .word-6 {
+.assembly-card:not(.assembled) .word-6 {
   transform: translate3d(340px, 240px, 70px) rotate(-24deg) scale(2.0);
 }
-#assemblyCard:not(.show) .word-7 {
+.assembly-card:not(.assembled) .word-7 {
   transform: translate3d(0px, 400px, 120px) rotate(16deg) scale(2.6);
 }
 
-/* Triggered Magnetic Snap State (.show) */
-#assemblyCard.show .kural-word {
+/* Triggered State: Rapid & Magnetic Snap Into Alignment (.assembled) */
+.assembly-card.assembled .snap-word {
   opacity: 1;
   filter: blur(0px) brightness(1);
   transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
@@ -416,20 +400,20 @@ html, body {
   text-shadow: 0 0 30px rgba(251, 191, 36, 0.8);
 }
 
-/* Sequential Staggered Transition Delays */
-#assemblyCard.show .word-1 { transition-delay: 0.10s; }
-#assemblyCard.show .word-2 { transition-delay: 0.22s; }
-#assemblyCard.show .word-3 { transition-delay: 0.34s; }
-#assemblyCard.show .word-4 { transition-delay: 0.46s; }
-#assemblyCard.show .word-5 { transition-delay: 0.58s; }
-#assemblyCard.show .word-6 { transition-delay: 0.70s; }
-#assemblyCard.show .word-7 {
+/* Staggered Transition Delays for Sequential Word Snap */
+.assembly-card.assembled .word-1 { transition-delay: 0.10s; }
+.assembly-card.assembled .word-2 { transition-delay: 0.22s; }
+.assembly-card.assembled .word-3 { transition-delay: 0.34s; }
+.assembly-card.assembled .word-4 { transition-delay: 0.46s; }
+.assembly-card.assembled .word-5 { transition-delay: 0.58s; }
+.assembly-card.assembled .word-6 { transition-delay: 0.70s; }
+.assembly-card.assembled .word-7 {
   transition-delay: 0.85s;
   color: #ffffff;
   text-shadow: 0 0 45px rgba(251, 191, 36, 1), 0 0 20px rgba(244, 63, 94, 0.8);
 }
 
-/* 5th Grader Meaning Box & Button Sequential Fade-In */
+/* 5th Grader Meaning Box Fade-In */
 .kural-meaning-box {
   width: 100%;
   max-width: 680px;
@@ -438,7 +422,7 @@ html, body {
   transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-spring);
 }
 
-#assemblyCard.show .kural-meaning-box {
+.assembly-card.assembled .kural-meaning-box {
   opacity: 1;
   transform: translateY(0);
   transition-delay: 1.15s;
@@ -452,6 +436,7 @@ html, body {
   text-shadow: 0 0 25px rgba(251, 191, 36, 0.5);
 }
 
+/* Replay Button */
 .replay-btn {
   background: linear-gradient(135deg, #fbbf24, #d97706);
   color: #000;
@@ -469,7 +454,7 @@ html, body {
               box-shadow var(--duration-fast) var(--ease-smooth);
 }
 
-#assemblyCard.show .replay-btn {
+.assembly-card.assembled .replay-btn {
   opacity: 1;
   transform: translateY(0) scale(1);
   transition-delay: 1.35s;
@@ -539,7 +524,7 @@ html, body {
   .assembly-card {
     padding: 2rem 1.25rem;
   }
-  .kural-line {
+  .kural-sentence-wrap {
     gap: 0.5rem 0.85rem;
   }
 }

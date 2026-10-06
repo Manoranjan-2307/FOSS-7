@@ -9,10 +9,13 @@
 </head>
 <body>
 
+  <!-- Global White Flash Overlay for Invisible Instant Jump -->
+  <div class="white-flash-overlay" id="whiteFlashOverlay" aria-hidden="true"></div>
+
   <!-- Top Scroll Progress Bar -->
   <div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 
-  <!-- Main 9-Slide Scroll Container -->
+  <!-- Main Scroll Container -->
   <main class="scroll-container" id="scrollContainer">
 
     <!-- SLIDE 1: Word 1 - தெய்வத்தான் -->
@@ -92,40 +95,36 @@
       </div>
     </section>
 
-    <!-- SLIDE 8: The Cinematic Full-Screen Video Transition -->
+    <!-- SLIDE 8: The Video Container -->
     <section class="slide-section slide-8-video" id="slide-8" aria-label="Slide 8: The Iron Man Snap">
-      <div class="video-stage">
+      <div class="video-wrapper">
         <video 
           id="ironManVideo" 
-          class="snap-fullscreen-video" 
+          class="snap-video" 
           src="snap.mp4"
-          playsinline 
           muted 
+          playsinline 
           preload="auto">
           Your browser does not support the video tag.
         </video>
-        <div class="video-snap-overlay"></div>
+        <div class="video-ambient-glow"></div>
       </div>
     </section>
 
     <!-- SLIDE 9: The Reverse-Snap Assembly Finale -->
-    <section class="slide-section slide-9-assembly" id="slide-9" aria-label="Slide 9: The Final Assembly">
+    <section class="slide-section slide-9-assembly" id="slide-9" aria-label="Slide 9: The Assembly">
       <div class="assembly-card" id="assemblyCard">
         <span class="badge-assembly">The Assembly</span>
-        
-        <!-- The 7 Magnetic Words Structured for Reverse Snap -->
-        <div class="assembly-words-grid" id="assemblyWordsGrid" lang="ta">
-          <div class="kural-line line-top">
-            <span class="kural-word word-1" data-index="1">தெய்வத்தான்</span>
-            <span class="kural-word word-2" data-index="2">ஆகா</span>
-            <span class="kural-word word-3" data-index="3">தெனினும்</span>
-            <span class="kural-word word-4" data-index="4">முயற்சிதன்</span>
-          </div>
-          <div class="kural-line line-bottom">
-            <span class="kural-word word-5" data-index="5">மெய்வருத்தக்</span>
-            <span class="kural-word word-6" data-index="6">கூலி</span>
-            <span class="kural-word word-7" data-index="7">தரும்</span>
-          </div>
+
+        <!-- The 7 Magnetic Words Forming a Sentence -->
+        <div class="kural-sentence-wrap" id="kuralSentence" lang="ta">
+          <span class="snap-word word-1" data-index="1">தெய்வத்தான்</span>
+          <span class="snap-word word-2" data-index="2">ஆகா</span>
+          <span class="snap-word word-3" data-index="3">தெனினும்</span>
+          <span class="snap-word word-4" data-index="4">முயற்சிதன்</span>
+          <span class="snap-word word-5" data-index="5">மெய்வருத்தக்</span>
+          <span class="snap-word word-6" data-index="6">கூலி</span>
+          <span class="snap-word word-7" data-index="7">தரும்</span>
         </div>
 
         <!-- 5th Grader Meaning Reveal -->
