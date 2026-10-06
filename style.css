@@ -1,6 +1,6 @@
 /* ==========================================================================
    THE 7-WORD SPRINT | KURAL 619
-   Grand Finale: Slide 8 & Slide 9 Reverse-Snap Assembly Integration
+   Slide 9: Majestic Slow-Paced Sequential Word Fade-In & Relative Translation
    ========================================================================== */
 
 /* --- Custom Properties / Design Tokens --- */
@@ -35,10 +35,10 @@
   --radius-full: 9999px;
   --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
 
-  /* Framer-Motion Physics Curves */
+  /* Physics Curves */
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-magnetic-snap: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-gentle: cubic-bezier(0.25, 1, 0.5, 1);
 
   --duration-fast: 200ms;
   --duration-normal: 450ms;
@@ -64,7 +64,7 @@ html, body {
 }
 
 /* ==========================================================================
-   1. GLOBAL WHITE FLASH OVERLAY (For Invisible Instant Jump)
+   1. GLOBAL WHITE FLASH OVERLAY
    ========================================================================== */
 .white-flash-overlay {
   position: fixed;
@@ -141,7 +141,7 @@ html, body {
 }
 
 /* ==========================================================================
-   SLIDES 1–7 SINGLE WORD ANIMATION ENGINE (Fade-in, Scale & Slide Up)
+   SLIDES 1–7 SINGLE WORD ANIMATIONS
    ========================================================================== */
 .slide-section:not(#slide-8):not(#slide-9) .slide-content > * {
   opacity: 0;
@@ -228,7 +228,7 @@ html, body {
   color: #ffffff;
 }
 
-/* --- Atmospheric Gradients (Slides 1–7) --- */
+/* --- Atmospheres (Slides 1–7) --- */
 .slide-1 { background: radial-gradient(circle at 50% 30%, #15163c 0%, var(--bg-dark) 80%); }
 .slide-1 .single-tamil-word { color: #c7d2fe; text-shadow: 0 0 35px rgba(99, 102, 241, 0.7); }
 .slide-1 .kid-hint { border-left-color: var(--theme-s1); }
@@ -278,7 +278,6 @@ html, body {
   overflow: hidden;
   border: 1px solid rgba(244, 63, 94, 0.35);
   box-shadow: 0 0 40px rgba(244, 63, 94, 0.35), 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-  transition: transform 0.6s var(--ease-smooth), box-shadow 0.6s var(--ease-smooth);
 }
 
 .snap-video {
@@ -286,7 +285,6 @@ html, body {
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: var(--radius-lg);
 }
 
 .video-ambient-glow {
@@ -297,20 +295,19 @@ html, body {
 }
 
 /* ==========================================================================
-   3. SLIDE 9: THE REVERSE-SNAP ASSEMBLY FINALE
+   3. SLIDE 9: REVERSE-SNAP ASSEMBLY WITH SLOW-PACED SEQUENTIAL FADE-IN
    ========================================================================== */
 .slide-9-assembly {
-  background: radial-gradient(circle at 50% 35%, #3c2704 0%, var(--bg-dark) 85%);
-  perspective: 1000px;
+  background: radial-gradient(circle at 50% 35%, #382504 0%, var(--bg-dark) 85%);
 }
 
 .assembly-card {
   width: 100%;
-  max-width: 980px;
-  background: rgba(255, 255, 255, 0.03);
+  max-width: 940px;
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(251, 191, 36, 0.35);
   border-radius: var(--radius-lg);
-  padding: 3rem 2rem;
+  padding: 3rem 2.25rem;
   box-shadow: 0 0 60px rgba(251, 191, 36, 0.2);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -318,122 +315,161 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.75rem;
   position: relative;
   z-index: 2;
-  overflow: hidden;
 }
 
 .badge-assembly {
   display: inline-block;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-weight: 700;
-  padding: 0.35rem 0.95rem;
+  padding: 0.4rem 1.1rem;
   border-radius: var(--radius-full);
-  background: rgba(251, 191, 36, 0.18);
+  background: rgba(251, 191, 36, 0.15);
   color: #fbbf24;
-  border: 1px solid rgba(251, 191, 36, 0.5);
-  box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+  border: 1px solid rgba(251, 191, 36, 0.45);
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.25);
 }
 
-/* Sentence Container */
-.kural-sentence-wrap {
+/* Traditional 2-Line Kural Structure */
+.kural-poem-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.kural-row {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.75rem 1.25rem;
-  width: 100%;
-  margin: 1.25rem 0;
-  position: relative;
+  gap: 0.75rem 1.5rem;
 }
 
-/* Initial Scattered Word State: Heavily Blurred, Rotated, Scaled & Thrown Off-Screen */
-.snap-word {
+/* Smooth, Gentle Fade-in Words (No Erratic Jumping) */
+.kural-fade-word {
   font-family: var(--font-tamil);
-  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-size: clamp(2.2rem, 5.8vw, 3.8rem);
   font-weight: 800;
-  line-height: 1.15;
+  line-height: 1.2;
   color: #ffffff;
   display: inline-block;
-  will-change: transform, opacity, filter;
   opacity: 0;
-  filter: blur(16px) brightness(2);
-  transition: transform 0.85s var(--ease-magnetic-snap),
-              opacity 0.6s var(--ease-smooth),
-              filter 0.7s var(--ease-smooth),
-              color 0.5s var(--ease-smooth),
-              text-shadow 0.5s var(--ease-smooth);
+  transform: translateY(18px);
+  filter: blur(6px);
+  transition: opacity 0.8s var(--ease-gentle),
+              transform 0.8s var(--ease-gentle),
+              filter 0.8s var(--ease-gentle),
+              color 0.6s var(--ease-gentle),
+              text-shadow 0.6s var(--ease-gentle);
+  will-change: opacity, transform, filter;
 }
 
-/* Off-Center 3D Coordinates before .assembled */
-.assembly-card:not(.assembled) .word-1 {
-  transform: translate3d(-360px, -220px, 80px) rotate(-32deg) scale(2.2);
-}
-.assembly-card:not(.assembled) .word-2 {
-  transform: translate3d(320px, -280px, 60px) rotate(26deg) scale(2.0);
-}
-.assembly-card:not(.assembled) .word-3 {
-  transform: translate3d(-400px, 140px, 100px) rotate(-38deg) scale(2.3);
-}
-.assembly-card:not(.assembled) .word-4 {
-  transform: translate3d(380px, -100px, 50px) rotate(20deg) scale(2.1);
-}
-.assembly-card:not(.assembled) .word-5 {
-  transform: translate3d(-280px, 300px, 90px) rotate(35deg) scale(2.4);
-}
-.assembly-card:not(.assembled) .word-6 {
-  transform: translate3d(340px, 240px, 70px) rotate(-24deg) scale(2.0);
-}
-.assembly-card:not(.assembled) .word-7 {
-  transform: translate3d(0px, 400px, 120px) rotate(16deg) scale(2.6);
-}
-
-/* Triggered State: Rapid & Magnetic Snap Into Alignment (.assembled) */
-.assembly-card.assembled .snap-word {
-  opacity: 1;
-  filter: blur(0px) brightness(1);
-  transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-  color: #fef08a;
-  text-shadow: 0 0 30px rgba(251, 191, 36, 0.8);
-}
-
-/* Staggered Transition Delays for Sequential Word Snap */
-.assembly-card.assembled .word-1 { transition-delay: 0.10s; }
-.assembly-card.assembled .word-2 { transition-delay: 0.22s; }
-.assembly-card.assembled .word-3 { transition-delay: 0.34s; }
-.assembly-card.assembled .word-4 { transition-delay: 0.46s; }
-.assembly-card.assembled .word-5 { transition-delay: 0.58s; }
-.assembly-card.assembled .word-6 { transition-delay: 0.70s; }
-.assembly-card.assembled .word-7 {
-  transition-delay: 0.85s;
-  color: #ffffff;
-  text-shadow: 0 0 45px rgba(251, 191, 36, 1), 0 0 20px rgba(244, 63, 94, 0.8);
-}
-
-/* 5th Grader Meaning Box Fade-In */
-.kural-meaning-box {
-  width: 100%;
-  max-width: 680px;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-spring);
-}
-
-.assembly-card.assembled .kural-meaning-box {
+/* Triggered State: Slower, Majestic Cadence for Each Word */
+.assembly-card.assembled .kural-fade-word {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 1.15s;
+  filter: blur(0);
+  color: #fef08a;
+  text-shadow: 0 0 25px rgba(251, 191, 36, 0.6);
 }
 
-.meaning-text {
-  font-size: clamp(1.2rem, 3.2vw, 1.55rem);
+/* Sequential Staggered Delays (Words 1 to 7) */
+.assembly-card.assembled .word-1 { transition-delay: 0.25s; }
+.assembly-card.assembled .word-2 { transition-delay: 0.75s; }
+.assembly-card.assembled .word-3 { transition-delay: 1.25s; }
+.assembly-card.assembled .word-4 { transition-delay: 1.75s; }
+.assembly-card.assembled .word-5 { transition-delay: 2.30s; }
+.assembly-card.assembled .word-6 { transition-delay: 2.85s; }
+.assembly-card.assembled .word-7 {
+  transition-delay: 3.40s;
+  color: #ffffff;
+  text-shadow: 0 0 40px rgba(251, 191, 36, 1), 0 0 20px rgba(244, 63, 94, 0.7);
+}
+
+/* Relative English Translation Section */
+.kural-meaning-box {
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.english-translation-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: clamp(1.05rem, 2.6vw, 1.25rem);
+  color: #cbd5e1;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.trans-line-1,
+.trans-line-2 {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.8s var(--ease-gentle), transform 0.8s var(--ease-gentle);
+}
+
+.assembly-card.assembled .trans-line-1 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 4.00s;
+}
+
+.assembly-card.assembled .trans-line-2 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 4.50s;
+}
+
+/* 5th-Grader Takeaway Highlight Box */
+.kid-takeaway-banner {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.12), rgba(245, 158, 11, 0.05));
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.75rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.85s var(--ease-gentle), transform 0.85s var(--ease-gentle);
+  box-shadow: 0 0 30px rgba(251, 191, 36, 0.15);
+}
+
+.assembly-card.assembled .kid-takeaway-banner {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 5.10s;
+}
+
+.takeaway-badge {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fbbf24;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.takeaway-text {
+  font-size: clamp(1.15rem, 3vw, 1.45rem);
   font-weight: 800;
-  color: #fef08a;
-  line-height: 1.4;
-  text-shadow: 0 0 25px rgba(251, 191, 36, 0.5);
+  color: #ffffff;
+  line-height: 1.35;
+  text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
 }
 
 /* Replay Button */
@@ -448,8 +484,8 @@ html, body {
   cursor: pointer;
   box-shadow: 0 6px 25px rgba(251, 191, 36, 0.4);
   opacity: 0;
-  transform: translateY(20px) scale(0.95);
-  transition: opacity 0.8s var(--ease-smooth),
+  transform: translateY(16px) scale(0.95);
+  transition: opacity 0.8s var(--ease-gentle),
               transform var(--duration-fast) var(--ease-spring),
               box-shadow var(--duration-fast) var(--ease-smooth);
 }
@@ -457,7 +493,7 @@ html, body {
 .assembly-card.assembled .replay-btn {
   opacity: 1;
   transform: translateY(0) scale(1);
-  transition-delay: 1.35s;
+  transition-delay: 5.70s;
 }
 
 .replay-btn:hover {
@@ -524,7 +560,7 @@ html, body {
   .assembly-card {
     padding: 2rem 1.25rem;
   }
-  .kural-sentence-wrap {
+  .kural-row {
     gap: 0.5rem 0.85rem;
   }
 }
